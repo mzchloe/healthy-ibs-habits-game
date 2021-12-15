@@ -4,9 +4,12 @@ const ctx = canvas.getContext("2d");
 
 //background image - static
 const bgImg = new Image();
-bgImg.src = "./images/bg.jpeg";
+bgImg.src = "./Images/bg.jpeg";
 
-ctx.drawImage(bgImg,0, 0);
+bgImg.onload = function() {
+    ctx.drawImage(bgImg,0, 0, canvas.width, canvas.height);
+}
+
 
 //1. Create player 
 
