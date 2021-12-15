@@ -3,6 +3,7 @@ body {
   }
   
   body h1 {
+    font-family:fantasy ;
     font-size: 30px;
     text-transform: uppercase;
   }
@@ -18,8 +19,6 @@ body {
     margin-bottom: 20px;
   }
 
-/*  canvas {
+ canvas {
     background-color:antiquewhite;
-    border: 5px solid black;
-      
   }
