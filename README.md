@@ -30,3 +30,50 @@ If you have more than 10 unhealthy items and only 10 healthy items or less, you 
 We will give you two new chances though to make great habits again, you know what they say about "All the good things are 3" ;) 
 
 GOOD LUCK! 
+
+
+
+MVP
+MVP definition, deliverables.
+* game has one player that can move around the canvas horizontally and vertically 
+* healthy and unhealthy items will fall down randomly
+* healthy items will increase your health score
+* unhealthy items will decrease your health score AND increase your pain score 
+* when you get too many unhealthy items, you will end up in the hospital and game is over
+* you win the game by collecting as many healthy items as possible 
+
+Backlog
+Backlog elements.
+
+Data structure
+Classes and methods definition. Or functions.
+
+script.js
+* startScreen() {}
+* gameOverScreen() {}
+
+game.js
+* game() {}
+* checkCollisions() {}
+* draw() {}
+* clearCanvas(){}
+* updateCanvas() {}
+* gameOver() {}
+* wonGame() {}
+
+States y States Transitions
+Definition of the different states and their transition (transition functions)
+
+splashScreen
+gameScreen
+gameoverScreen
+winScreen
+Task
+Task definition in order of priority
+
+Additional Links
+Trello
+Link url
+
+Slides
+Link Slides.com
