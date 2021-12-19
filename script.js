@@ -2,32 +2,53 @@ const startBtn = document.getElementById('start-button');
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext("2d");
 
+
+//BG IMAGE
 const bgImg = new Image();
-bgImg.src = "./Images/livingroom.jpg";
+bgImg.src = "./Images/bgField.jpg   ";
 
 //Replace -const gamePlayer = new Player(20,20,50,50, 'aliceblue')- with an image:
+//PLAYER IMG
 const gamePlayer = new Image();
 gamePlayer.src = "./Images/girl.png";
 
-const water = new Image(); //new Image() is the code for generating new image via JS
-water.src = "./Images/cartorange.png"; //this is the source it takes the image from 
+//OBJECT IMAGES
+const kiwi = new Image(); //new Image() is the code for generating new image via JS
+kiwi.src = "./Images/kiwi.png"; //this is the source it takes the image from 
 
-const cigarette = new Image();
-cigarette.src = "./Images/mainphoto.jpeg";
+const yoga = new Image();
+yoga.src = "./Images/yoga.png";
+
+const water = new Image();
+water.src = "./Images/water.png";
+
+const sleep = new Image();
+sleep.src = "./Images/sleep.png";
+
+const smoke = new Image();
+smoke.src = "./Images/smoke.png";
 
 const alcohol = new Image();
-alcohol.src = "./Images/girl.png";
+alcohol.src = "./Images/alcohol.png";
 
-ctx.drawImage(water, 0, 0, 50, 50)  
+const onion = new Image();
+onion.src = "./Images/onion.png";
+
+const stress = new Image();
+stress.src = "./Images/stress.png";
+
+/* ctx.drawImage(kiwi, 0, 0, 50, 50)
+
+ctx.drawImage(yoga, 150, 5, 50, 50 */   
 
 //Different falling objects split into good(+ points) and bad (minus points):
 //Good objects: Water (+2), Sleep (+2), Yoga (+1), Kiwi (+1)
 //Bad objects: Cigarettes (-1), Alcohol (-1), Onions (-1), Stress (-2)
 
-//random falling position of the objects:
+//RANDOM FALLING POSITION OF OBJECTS ALONG X-AXIS WITHIN THE CANVAS WIDTH:
 let randomNumber = Math.floor(Math.random() * 900);
 
-//to draw the objects array:
+//CREATE EMPTY OBJECTS ARRAY:
 const objArray = [ 
     //{item: water, points: 2, img: water, x: 0, y: -10},
    /*  {item: sleep, points: 2, img: water, x: randomNumber, y: -10},
@@ -69,10 +90,18 @@ class fallingObjects {
     }
 }
 
+let kiwiObj = new fallingObjects(kiwi, 5, -10, 50, 50)
+let yogaObj = new fallingObjects(yoga, 250, -10, 50, 50)
+let sleepObj = new fallingObjects(sleep, 5, -10, 50, 50)
 let waterObj = new fallingObjects(water, 5, -10, 50, 50)
-let cigaretteObj = new fallingObjects(cigarette, 250, -10, 50, 50)
+
 let alcoholObj = new fallingObjects(alcohol, 500, -10, 50, 50)
-const allObjArray = [waterObj, cigaretteObj, alcoholObj];
+let stressObj = new fallingObjects(stress, 5, -10, 50, 50)
+let onionObj = new fallingObjects(onion, 5, -10, 50, 50)
+let smokeObj = new fallingObjects(smoke, 5, -10, 50, 50)
+
+
+const allObjArray = [kiwiObj, yogaObj, sleepObj, waterObj, alcoholObj, onionObj, smokeObj];
 //define variables for x and y for the player:
 let gamePlayerX = 0;
 let gamePlayerY = 0;
