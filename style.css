@@ -1,17 +1,32 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
     text-align: center;
+    cursor: crosshair;
   }
 
   body h1 {
+    position: absolute;
+    top: 150px;
+    left: 550px;
+    color: white;
     font-family:fantasy ;
     font-size: 30px;
     text-transform: uppercase;
   }
   
   body button {
+    position: absolute;
+    z-index: 1;
+    top: 250px;
+    left: 650px;
     font-size: 20px;
-    background-color: black;
-    color: #fff;
+    background-color: white;
+    color: black;
     padding: 10px 20px;
     border: 0;
     box-shadow: 0;
@@ -20,5 +35,7 @@ body {
   }
 
  canvas {
+    position: absolute;
+    left: 280px;
     background-color:antiquewhite;
   }

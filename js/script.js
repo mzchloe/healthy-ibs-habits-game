@@ -5,7 +5,7 @@ const ctx = canvas.getContext("2d");
 
 //BG IMAGE
 const bgImg = new Image();
-bgImg.src = "./Images/bgField.jpg   ";
+bgImg.src = "./Images/bgField.jpg";
 
 //Replace -const gamePlayer = new Player(20,20,50,50, 'aliceblue')- with an image:
 //PLAYER IMG
@@ -64,8 +64,6 @@ const objArray = [
 //const allObjArray = [water, cigarette, alcohol];
 
 
-
-
 class fallingObjects {
     constructor(objImg, objX,objY, objW, objH, objColor){
         this.img = objImg 
@@ -86,7 +84,6 @@ class fallingObjects {
 
     fallDown() {
         this.y = this.y +1
-        
     }
 }
 
@@ -102,16 +99,17 @@ let smokeObj = new fallingObjects(smoke, 5, -10, 50, 50)
 
 
 const allObjArray = [kiwiObj, yogaObj, sleepObj, waterObj, alcoholObj, onionObj, smokeObj];
+
+//PLAYER 
 //define variables for x and y for the player:
-let gamePlayerX = 0;
-let gamePlayerY = 0;
+let gamePlayerX = 55;
+let gamePlayerY = 178;
 
-
+//move the player around
 function movePlayer() {
     ctx.drawImage(gamePlayer, gamePlayerX, gamePlayerY, 150, 200)     
     }
 
-//1.2 Create move() function so the player can make movements with arrow keyboard
 document.addEventListener('keydown', event => {
 
     if(event.keyCode == 38) {
@@ -122,9 +120,10 @@ document.addEventListener('keydown', event => {
         gamePlayerX -=15
     } else if(event.keyCode == 39) {
         gamePlayerX +=15
-    }
-    
+    }    
 })
+
+//GAME LOOP
 
 let intervalID = 0;
 
@@ -146,7 +145,7 @@ window.onload = () => {
             movePlayer()
             objArray.forEach((element) => { //callback function
                 element.draw()        
-                element.fallDown()
+                element.fallDown() 
             })
         }, 20)
     } 
