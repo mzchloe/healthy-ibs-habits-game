@@ -141,12 +141,7 @@ let gamePlayerY = 178;
 
 
 
-//move the player around
-function movePlayer() {
-    ctx.drawImage(gamePlayer, gamePlayerX, gamePlayerY, 150, 200)     
-    }
-
-
+//move the player with arrow keyboard
 document.addEventListener('keydown', event => {
 
     if(event.keyCode == 38) {
@@ -183,8 +178,6 @@ window.onload = () => {
             ctx.clearRect(0,0,canvas.width, canvas.height) 
             ctx.drawImage(bgImg, 0, 0)
             ctx.drawImage(gamePlayer, gamePlayerX, gamePlayerY, 150, 200) 
-            movePlayer()
-            //checkCollision()
             objArray.forEach((element) => { //callback function
                 element.draw()        
                 element.fallDown() 
@@ -209,20 +202,3 @@ window.onload = () => {
 
 //2.2 Falling object: square (replace with images later)
 //2.3 Create a falling function, which is a scrolling function but vertically from X = 0
-
-//NOTES:
-//Switch case did not work on the eventListener for the move of player using an image, it only worked for rectangle
-/* switch (event.keyCode){
-        case 38:
-            gamePlayerY -=15
-            break
-        case 40:
-            gamePlayerY +=15
-            break
-        case 37:
-            gamePlayerX -=15
-            break  
-        case 39:
-            gamePlayerX +=15
-            break      
-    } */
