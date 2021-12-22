@@ -1,4 +1,5 @@
 const startBtn = document.getElementById('start-button');
+const gameIntro = document.getElementById('game-intro');
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext("2d");
 
@@ -65,13 +66,12 @@ const objArray = [
 
 
 class fallingObjects {
-    constructor(objImg, objX,objY, objW, objH, objColor){
+    constructor(objImg, objX,objY, objW, objH){
         this.img = objImg 
         this.x = objX
         this.y = objY
         this.w = objW
         this.h = objH
-        this.color = objColor
     }
 
     draw() {
@@ -86,7 +86,7 @@ class fallingObjects {
         this.y = this.y +1
     }
 }
-
+//these objects are coded to fall down from top:
 let kiwiObj = new fallingObjects(kiwi, 5, -10, 50, 50)
 let yogaObj = new fallingObjects(yoga, 250, -10, 50, 50)
 let sleepObj = new fallingObjects(sleep, 5, -10, 50, 50)
@@ -97,18 +97,55 @@ let stressObj = new fallingObjects(stress, 5, -10, 50, 50)
 let onionObj = new fallingObjects(onion, 5, -10, 50, 50)
 let smokeObj = new fallingObjects(smoke, 5, -10, 50, 50)
 
-
+//this is the array to keep all the falling objects:
 const allObjArray = [kiwiObj, yogaObj, sleepObj, waterObj, alcoholObj, onionObj, smokeObj];
 
+//this is to separate all objects that ADD points:
+/* const addPointObjects = [(kiwiObj, objX, objY, objW, objH), 
+    (yogaObj, objX, objY, objW, objH),
+    (sleepObj, objX, objY, objW, objH),
+    (waterObj, objX, objY, objW, objH)]; */
+
+//this is to separate all objects that DEDUCT points: 
+/* const deductPointsObjects = [
+    (alcoholObj, objX, objY, objW, objH),
+    (stressObj, objX, objY, objW, objH),
+    (onionObj, objX, objY, objW, objH),
+    (smokeObj, objX, objY, objW, objH)]; */
+
 //PLAYER 
-//define variables for x and y for the player:
+//defined the starting point for x and y for the player when game loop starts:
 let gamePlayerX = 55;
 let gamePlayerY = 178;
+
+//attempt to make a collision detection against 1) canvas so it does not go out
+// 2) against the objects falling down that either add and deduct points:
+/* function checkCollision (){
+    //check if gamePlayer is going off canvas:
+    if (gamePlayer.x + gamePlayer.width > canvas.width && 
+        gamePlayer.x + gamePlayer.width < canvas.width &&
+        gamePlayer.y + gamePlayer.height > canvas.height &&
+        gamePlayer.y + gamePlayer.height < canvas.height) {
+    // gamePlayer cannot move further and can only move up, down or back 
+        }
+     
+    //checks if player hits the objects that will add points:
+    if (gamePlayer.x + gamePlayer.width > addPointObjects.x) { // etc.)
+        //score++ (let scoreHealth = 0; defined below)
+    } 
+    //checks if the player hits objects that will deduct points:
+    else if (gamePlayer.x + gamePlayer.width > deductPointsObjects.x) {
+        //score-- (let scorePain = 10; defined below)
+    }
+} */
+
+
 
 //move the player around
 function movePlayer() {
     ctx.drawImage(gamePlayer, gamePlayerX, gamePlayerY, 150, 200)     
     }
+
 
 document.addEventListener('keydown', event => {
 
@@ -126,23 +163,28 @@ document.addEventListener('keydown', event => {
 //GAME LOOP
 
 let intervalID = 0;
+//let scoreHealth = 0;
+//let scorePain = 10;
 
 window.onload = () => {
+    ctx.drawImage(bgImg, 0, 0)
     startBtn.onclick = () => {
+        gameIntro.style.display = "none";
         /* for (let i=0; i < objArray.length; i++ ){
             ctx.drawImage(objArray[i].img, objArray[i].x, objArray[i].y, 50, 50)
         } */
         setInterval(() => {
             intervalID++
-            if (intervalID == 20){
+            if (intervalID == 10){
                 let addRandomObj = Math.floor(Math.random() * allObjArray.length)
                 objArray.push(allObjArray[addRandomObj])
-                console.log(allObjArray[addRandomObj])
+                //console.log(allObjArray[addRandomObj])
             }
             ctx.clearRect(0,0,canvas.width, canvas.height) 
             ctx.drawImage(bgImg, 0, 0)
             ctx.drawImage(gamePlayer, gamePlayerX, gamePlayerY, 150, 200) 
             movePlayer()
+            //checkCollision()
             objArray.forEach((element) => { //callback function
                 element.draw()        
                 element.fallDown() 
