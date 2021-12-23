@@ -77,26 +77,49 @@ class playerObject {
         ctx.drawImage(this.img, this.x, this.y, this.w, this.h)
     }
 
-    checkCollision(canvasWall){
+    checkCollision(gameborder){
         return (
-            
-        )
+                this.x < gameborder.x + gameborder.w &&
+                this.x + this.w > gameborder.x &&
+                this.y < gameborder.y + gameborder.h &&
+                this.y + this.h > gameborder.y
+              );
     }
 
-    moveUp(){
-        this.y -=15
+    moveUp(gameborder){
+        this.y -=15;
+        if (this.checkCollision(gameborder)){
+            this.y +=15;
+        } else {
+            this.y -=15;
+        }
     }
 
     moveDown(){
-        this.y +=15
+        this.y +=15;
+        if (this.checkCollision(gameborder)){
+            this.y -=15;
+        } else {
+            this.y +=15;
+        }
     }
 
     moveLeft(){
         this.x -=15
+        if (this.checkCollision(gameborder)){
+            this.x +=15;
+        } else {
+            this.x -=15;
+        }
     }
 
     moveRight(){
         this.x +=15
+        if (this.checkCollision(gameborder)){
+            this.x -=15;
+        } else {
+            this.x +=15;
+        }
     }
 }
 
@@ -207,13 +230,13 @@ let gamePlayerY = 178; */
 document.addEventListener('keydown', event => {
 
     if(event.keyCode == 38) {
-        player.moveUp() -= 15
+        player.moveUp(borders) -= 15
     } else if(event.keyCode == 40) {
-        player.moveDown() +=15
+        player.moveDown(borders) +=15
     } else if(event.keyCode == 37) {
-        player.moveLeft() -=15
+        player.moveLeft(borders) -=15
     } else if(event.keyCode == 39) {
-        player.moveRight() +=15
+        player.moveRight(borders) +=15
     }    
 }) 
 
