@@ -64,6 +64,68 @@ const objArray = [
 //the collections of all objects that will be picked from randomly
 //const allObjArray = [water, cigarette, alcohol];
 
+//PLAYER
+class playerObject {
+    constructor(objImg, objX, objY, objW, objH){
+        this.img = objImg 
+        this.x = objX
+        this.y = objY
+        this.w = objW
+        this.h = objH
+    }
+    draw() {
+        ctx.drawImage(this.img, this.x, this.y, this.w, this.h)
+    }
+
+    checkCollision(canvasWall){
+        return (
+            
+        )
+    }
+
+    moveUp(){
+        this.y -=15
+    }
+
+    moveDown(){
+        this.y +=15
+    }
+
+    moveLeft(){
+        this.x -=15
+    }
+
+    moveRight(){
+        this.x +=15
+    }
+}
+
+const player = new playerObject (gamePlayer, 55, 178, 150, 200)
+
+// BORDER OF THE GAME
+class gameBorder {
+    constructor (objX, objY, objW, objH, objColor){
+        this.x = objX
+        this.y = objY
+        this.w = objW
+        this.h = objH
+        this.color = objColor
+    }
+
+    draw(){
+        ctx.fillStyle = this.color
+        ctx.fillRect(this.x, this.y, this.w, this.h, this.color)
+    }
+}
+
+const borders = [
+    new gameBorder(0, 0, canvas.width, 1, 'black'),
+    new gameBorder(0, 503, canvas.width, 1, 'black'),
+    new gameBorder(0, 0, 1, canvas.height, 'black'),
+    new gameBorder(899, 0, 1, canvas.height, 'black'),
+];
+
+//FALLING OBJECTS
 
 class fallingObjects {
     constructor(objImg, objX,objY, objW, objH){
@@ -83,7 +145,7 @@ class fallingObjects {
     }
 
     fallDown() {
-        this.y = this.y +1
+        this.y = this.y +2
     }
 }
 //these objects are coded to fall down from top:
@@ -115,8 +177,8 @@ const allObjArray = [kiwiObj, yogaObj, sleepObj, waterObj, alcoholObj, onionObj,
 
 //PLAYER 
 //defined the starting point for x and y for the player when game loop starts:
-let gamePlayerX = 55;
-let gamePlayerY = 178;
+/* let gamePlayerX = 55;
+let gamePlayerY = 178; */
 
 //attempt to make a collision detection against 1) canvas so it does not go out
 // 2) against the objects falling down that either add and deduct points:
@@ -145,15 +207,15 @@ let gamePlayerY = 178;
 document.addEventListener('keydown', event => {
 
     if(event.keyCode == 38) {
-        gamePlayerY -= 15
+        player.moveUp() -= 15
     } else if(event.keyCode == 40) {
-        gamePlayerY +=15
+        player.moveDown() +=15
     } else if(event.keyCode == 37) {
-        gamePlayerX -=15
+        player.moveLeft() -=15
     } else if(event.keyCode == 39) {
-        gamePlayerX +=15
+        player.moveRight() +=15
     }    
-})
+}) 
 
 //GAME LOOP
 
@@ -165,19 +227,23 @@ window.onload = () => {
     ctx.drawImage(bgImg, 0, 0)
     startBtn.onclick = () => {
         gameIntro.style.display = "none";
-        /* for (let i=0; i < objArray.length; i++ ){
-            ctx.drawImage(objArray[i].img, objArray[i].x, objArray[i].y, 50, 50)
-        } */
+        for (let i=0; i < allObjArray.length; i++ ){
+            ctx.drawImage(allObjArray[i].img, allObjArray[i].x, allObjArray[i].y, 50, 50)
+        } 
         setInterval(() => {
             intervalID++
-            if (intervalID == 10){
+            if (intervalID == 20){
                 let addRandomObj = Math.floor(Math.random() * allObjArray.length)
                 objArray.push(allObjArray[addRandomObj])
                 //console.log(allObjArray[addRandomObj])
             }
             ctx.clearRect(0,0,canvas.width, canvas.height) 
             ctx.drawImage(bgImg, 0, 0)
-            ctx.drawImage(gamePlayer, gamePlayerX, gamePlayerY, 150, 200) 
+            player.draw()
+            borders.forEach((border) => {
+                border.draw();
+                });
+            //ctx.drawImage(gamePlayer, gamePlayerX, gamePlayerY, 150, 200) 
             objArray.forEach((element) => { //callback function
                 element.draw()        
                 element.fallDown() 
