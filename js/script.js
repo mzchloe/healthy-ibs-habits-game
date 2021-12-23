@@ -77,56 +77,27 @@ class playerObject {
         ctx.drawImage(this.img, this.x, this.y, this.w, this.h)
     }
 
-    checkCollision(gameborder){
-        return (
-                this.x < gameborder.x + gameborder.w &&
-                this.x + this.w > gameborder.x &&
-                this.y < gameborder.y + gameborder.h &&
-                this.y + this.h > gameborder.y
-              );
-    }
-
-    moveUp(gameborder){
-        this.y -=15;
-        if (this.checkCollision(gameborder)){
-            this.y +=15;
-        } else {
-            this.y -=15;
-        }
+    moveUp(){
+       if(this.y > 0) this.y -=15
     }
 
     moveDown(){
-        this.y +=15;
-        if (this.checkCollision(gameborder)){
-            this.y -=15;
-        } else {
-            this.y +=15;
-        }
+       if(this.y < canvas.height - this.h) this.y +=15;
     }
 
     moveLeft(){
-        this.x -=15
-        if (this.checkCollision(gameborder)){
-            this.x +=15;
-        } else {
-            this.x -=15;
-        }
+        if(this.x > -35) this.x -=15
     }
 
     moveRight(){
-        this.x +=15
-        if (this.checkCollision(gameborder)){
-            this.x -=15;
-        } else {
-            this.x +=15;
-        }
-    }
+        if(this.x < canvas.width - this.w + 30) this.x +=15
+    } 
 }
 
 const player = new playerObject (gamePlayer, 55, 178, 150, 200)
 
 // BORDER OF THE GAME
-class gameBorder {
+/* class gameBorder {
     constructor (objX, objY, objW, objH, objColor){
         this.x = objX
         this.y = objY
@@ -146,7 +117,7 @@ const borders = [
     new gameBorder(0, 503, canvas.width, 1, 'black'),
     new gameBorder(0, 0, 1, canvas.height, 'black'),
     new gameBorder(899, 0, 1, canvas.height, 'black'),
-];
+]; */
 
 //FALLING OBJECTS
 
@@ -229,14 +200,14 @@ let gamePlayerY = 178; */
 //move the player with arrow keyboard
 document.addEventListener('keydown', event => {
 
-    if(event.keyCode == 38) {
-        player.moveUp(borders) -= 15
-    } else if(event.keyCode == 40) {
-        player.moveDown(borders) +=15
-    } else if(event.keyCode == 37) {
-        player.moveLeft(borders) -=15
-    } else if(event.keyCode == 39) {
-        player.moveRight(borders) +=15
+    if(event.keyCode === 38) {
+        player.moveUp() //-= 15
+    } else if(event.keyCode === 40) {
+        player.moveDown() //+=15
+    } else if(event.keyCode === 37) {
+        player.moveLeft() //-=15
+    } else if(event.keyCode === 39) {
+        player.moveRight() //+=15
     }    
 }) 
 
@@ -263,9 +234,9 @@ window.onload = () => {
             ctx.clearRect(0,0,canvas.width, canvas.height) 
             ctx.drawImage(bgImg, 0, 0)
             player.draw()
-            borders.forEach((border) => {
+            /* borders.forEach((border) => {
                 border.draw();
-                });
+                }); */
             //ctx.drawImage(gamePlayer, gamePlayerX, gamePlayerY, 150, 200) 
             objArray.forEach((element) => { //callback function
                 element.draw()        
@@ -274,6 +245,7 @@ window.onload = () => {
         }, 20)
     } 
 }
+
 
 
 
