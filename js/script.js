@@ -37,7 +37,7 @@ const onion = new Image();
 onion.src = "./Images/onion.png";
 
 const stress = new Image();
-stress.src = "./Images/stress.png";
+stress.src = "../Images/stress.png";
 
 /* ctx.drawImage(kiwi, 0, 0, 50, 50)
 
@@ -150,8 +150,8 @@ let sleepObj = new fallingObjects(sleep, 5, -10, 50, 50)
 let waterObj = new fallingObjects(water, 5, -10, 50, 50)
 
 let alcoholObj = new fallingObjects(alcohol, 500, -10, 50, 50)
-let stressObj = new fallingObjects(stress, 5, -10, 50, 50)
-let onionObj = new fallingObjects(onion, 5, -10, 50, 50)
+let stressObj = new fallingObjects(stress, 5, -10, 50, 50) // image not showing
+let onionObj = new fallingObjects(onion, 5, -10, 50, 50) 
 let smokeObj = new fallingObjects(smoke, 5, -10, 50, 50)
 
 //this is the array to keep all the falling objects:
@@ -222,16 +222,16 @@ window.onload = () => {
         canvas.style.display = '';
         //show the game screen
         gameScreen.style.display = "initial";
-        for (let i=0; i < allObjArray.length; i++ ){
+       /*  for (let i=0; i < allObjArray.length; i++ ){
             ctx.drawImage(allObjArray[i].img, allObjArray[i].x, allObjArray[i].y, 50, 50)
-        } 
+        }  */
         setInterval(() => {
-            intervalID++
+            /* intervalID++
             if (intervalID == 20){
                 let addRandomObj = Math.floor(Math.random() * allObjArray.length)
                 objArray.push(allObjArray[addRandomObj])
                 //console.log(allObjArray[addRandomObj])
-            }
+            } */
             ctx.clearRect(0,0,canvas.width, canvas.height) 
             ctx.drawImage(bgImg, 0, 0)
             player.draw()
@@ -239,7 +239,7 @@ window.onload = () => {
                 border.draw();
                 }); // borders are not needed anymore due to the if conditions inside the movement functions */
             //ctx.drawImage(gamePlayer, gamePlayerX, gamePlayerY, 150, 200) 
-            objArray.forEach((element) => { //callback function
+            allObjArray.forEach((element) => { //callback function
                 element.draw()        
                 element.fallDown() 
             })
