@@ -1,5 +1,6 @@
 const startBtn = document.getElementById('start-button');
 const gameIntro = document.getElementById('game-intro');
+const gameScreen = document.getElementById('game-screen')
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext("2d");
 
@@ -61,8 +62,6 @@ const objArray = [
     {item: stress, points: -1}, */
 ];
 
-//the collections of all objects that will be picked from randomly
-//const allObjArray = [water, cigarette, alcohol];
 
 //PLAYER
 class playerObject {
@@ -90,11 +89,11 @@ class playerObject {
     }
 
     moveRight(){
-        if(this.x < canvas.width - this.w + 30) this.x +=15
+        if(this.x < canvas.width - this.w + 35) this.x +=15
     } 
 }
 
-const player = new playerObject (gamePlayer, 55, 178, 150, 200)
+const player = new playerObject (gamePlayer, 150, 190, 150, 180)
 
 // BORDER OF THE GAME
 /* class gameBorder {
@@ -132,14 +131,16 @@ class fallingObjects {
 
     draw() {
         ctx.drawImage(this.img, this.x, this.y, 50, 50)
-        //ctx.fillStyle = this.color
-        //ctx.fillRect(this.x, this.y, this.w, this.h)
-       // ctx.drawImage(gamePlayer, 0, 0)
-        //ctx.drawImage(bgImg, 0, 0,)
     }
 
     fallDown() {
-        this.y = this.y +2
+       // this.y = this.y +2
+       if(this.y + 3 > 504) {
+           this.y = -50
+           this.x = Math.floor(Math.random()*canvas.width - 50)
+       } else {
+           this.y = this.y + 3
+       }
     }
 }
 //these objects are coded to fall down from top:
@@ -170,12 +171,8 @@ const allObjArray = [kiwiObj, yogaObj, sleepObj, waterObj, alcoholObj, onionObj,
     (smokeObj, objX, objY, objW, objH)]; */
 
 //PLAYER 
-//defined the starting point for x and y for the player when game loop starts:
-/* let gamePlayerX = 55;
-let gamePlayerY = 178; */
 
-//attempt to make a collision detection against 1) canvas so it does not go out
-// 2) against the objects falling down that either add and deduct points:
+//ATTEMPT on collision detection for objects falling down
 /* function checkCollision (){
     //check if gamePlayer is going off canvas:
     if (gamePlayer.x + gamePlayer.width > canvas.width && 
@@ -201,7 +198,7 @@ let gamePlayerY = 178; */
 document.addEventListener('keydown', event => {
 
     if(event.keyCode === 38) {
-        player.moveUp() //-= 15
+        player.moveUp() //-= 15 is not needed as the function is added
     } else if(event.keyCode === 40) {
         player.moveDown() //+=15
     } else if(event.keyCode === 37) {
@@ -220,7 +217,11 @@ let intervalID = 0;
 window.onload = () => {
     ctx.drawImage(bgImg, 0, 0)
     startBtn.onclick = () => {
+        //hide the introduction screen
         gameIntro.style.display = "none";
+        canvas.style.display = '';
+        //show the game screen
+        gameScreen.style.display = "initial";
         for (let i=0; i < allObjArray.length; i++ ){
             ctx.drawImage(allObjArray[i].img, allObjArray[i].x, allObjArray[i].y, 50, 50)
         } 
@@ -236,7 +237,7 @@ window.onload = () => {
             player.draw()
             /* borders.forEach((border) => {
                 border.draw();
-                }); */
+                }); // borders are not needed anymore due to the if conditions inside the movement functions */
             //ctx.drawImage(gamePlayer, gamePlayerX, gamePlayerY, 150, 200) 
             objArray.forEach((element) => { //callback function
                 element.draw()        
