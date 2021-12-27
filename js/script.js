@@ -4,7 +4,6 @@ const gameScreen = document.getElementById('game-screen')
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext("2d");
 
-
 //BG IMAGE
 const bgImg = new Image();
 bgImg.src = "./Images/bgField.jpg";
@@ -39,9 +38,9 @@ onion.src = "./Images/onion.png";
 const stress = new Image();
 stress.src = "../Images/stress.png";
 
-/* ctx.drawImage(kiwi, 0, 0, 50, 50)
-
-ctx.drawImage(yoga, 150, 5, 50, 50 */   
+let intervalID = 0;
+let healthScore = 0;
+let painScore = 0;
 
 //Different falling objects split into good(+ points) and bad (minus points):
 //Good objects: Water (+2), Sleep (+2), Yoga (+1), Kiwi (+1)
@@ -91,6 +90,12 @@ class playerObject {
     moveRight(){
         if(this.x < canvas.width - this.w + 35) this.x +=15
     } 
+
+    checkCollision(){
+        if(gamePlayer.x > objectImg.x etc){
+            objImg 
+        }
+    }
 }
 
 const player = new playerObject (gamePlayer, 150, 190, 150, 180)
@@ -121,12 +126,13 @@ const borders = [
 //FALLING OBJECTS
 
 class fallingObjects {
-    constructor(objImg, objX,objY, objW, objH){
+    constructor(objImg, objX,objY, objW, objH, objIsHealthy){
         this.img = objImg 
         this.x = objX
         this.y = objY
         this.w = objW
         this.h = objH
+        this.IsHealthy = objIsHealthy
     }
 
     draw() {
@@ -142,20 +148,23 @@ class fallingObjects {
            this.y = this.y + 3
        }
     }
+
+    
 }
 //these objects are coded to fall down from top:
-let kiwiObj = new fallingObjects(kiwi, 5, -10, 50, 50)
-let yogaObj = new fallingObjects(yoga, 250, -10, 50, 50)
-let sleepObj = new fallingObjects(sleep, 5, -10, 50, 50)
-let waterObj = new fallingObjects(water, 5, -10, 50, 50)
+let kiwiObj = new fallingObjects(kiwi, 5, -10, 50, 50, true)
+let yogaObj = new fallingObjects(yoga, 250, -10, 50, 50, true)
+let sleepObj = new fallingObjects(sleep, 5, -10, 50, 50, true)
+let waterObj = new fallingObjects(water, 5, -10, 50, 50, true)
 
-let alcoholObj = new fallingObjects(alcohol, 500, -10, 50, 50)
-let stressObj = new fallingObjects(stress, 5, -10, 50, 50) // image not showing
-let onionObj = new fallingObjects(onion, 5, -10, 50, 50) 
-let smokeObj = new fallingObjects(smoke, 5, -10, 50, 50)
+let alcoholObj = new fallingObjects(alcohol, 500, -10, 50, 50, false)
+let stressObj = new fallingObjects(stress, 5, -10, 50, 50, false) // image not showing
+let onionObj = new fallingObjects(onion, 5, -10, 50, 50, false) 
+let smokeObj = new fallingObjects(smoke, 5, -10, 50, 50, false)
 
 //this is the array to keep all the falling objects:
 const allObjArray = [kiwiObj, yogaObj, sleepObj, waterObj, alcoholObj, onionObj, smokeObj];
+
 
 //this is to separate all objects that ADD points:
 /* const addPointObjects = [(kiwiObj, objX, objY, objW, objH), 
@@ -173,15 +182,7 @@ const allObjArray = [kiwiObj, yogaObj, sleepObj, waterObj, alcoholObj, onionObj,
 //PLAYER 
 
 //ATTEMPT on collision detection for objects falling down
-/* function checkCollision (){
-    //check if gamePlayer is going off canvas:
-    if (gamePlayer.x + gamePlayer.width > canvas.width && 
-        gamePlayer.x + gamePlayer.width < canvas.width &&
-        gamePlayer.y + gamePlayer.height > canvas.height &&
-        gamePlayer.y + gamePlayer.height < canvas.height) {
-    // gamePlayer cannot move further and can only move up, down or back 
-        }
-     
+/* function checkCollision (player, object){
     //checks if player hits the objects that will add points:
     if (gamePlayer.x + gamePlayer.width > addPointObjects.x) { // etc.)
         //score++ (let scoreHealth = 0; defined below)
@@ -208,11 +209,34 @@ document.addEventListener('keydown', event => {
     }    
 }) 
 
-//GAME LOOP
 
-let intervalID = 0;
-//let scoreHealth = 0;
-//let scorePain = 10;
+//GAME LOOP
+function startGame(){
+setInterval(() => {
+    /* intervalID++
+    if (intervalID == 20){
+        let addRandomObj = Math.floor(Math.random() * allObjArray.length)
+        objArray.push(allObjArray[addRandomObj])
+        //console.log(allObjArray[addRandomObj])
+    } */
+    ctx.clearRect(0,0,canvas.width, canvas.height) 
+    ctx.drawImage(bgImg, 0, 0)
+    player.draw()
+    allObjArray.forEach((element) => { //callback function
+        element.draw()        
+        element.fallDown() 
+        if(player.x === element.x && player.y === element.y) {
+            if(element.isHealthy) {
+                healthScore++
+            } else {
+                painScore++
+            }
+          }
+    })
+}, 20)
+}
+
+
 
 window.onload = () => {
     ctx.drawImage(bgImg, 0, 0)
@@ -225,25 +249,7 @@ window.onload = () => {
        /*  for (let i=0; i < allObjArray.length; i++ ){
             ctx.drawImage(allObjArray[i].img, allObjArray[i].x, allObjArray[i].y, 50, 50)
         }  */
-        setInterval(() => {
-            /* intervalID++
-            if (intervalID == 20){
-                let addRandomObj = Math.floor(Math.random() * allObjArray.length)
-                objArray.push(allObjArray[addRandomObj])
-                //console.log(allObjArray[addRandomObj])
-            } */
-            ctx.clearRect(0,0,canvas.width, canvas.height) 
-            ctx.drawImage(bgImg, 0, 0)
-            player.draw()
-            /* borders.forEach((border) => {
-                border.draw();
-                }); // borders are not needed anymore due to the if conditions inside the movement functions */
-            //ctx.drawImage(gamePlayer, gamePlayerX, gamePlayerY, 150, 200) 
-            allObjArray.forEach((element) => { //callback function
-                element.draw()        
-                element.fallDown() 
-            })
-        }, 20)
+        startGame();
     } 
 }
 
