@@ -39,27 +39,14 @@ const stress = new Image();
 stress.src = "../Images/stress.png";
 
 let intervalID = 0;
-let healthScore = 0;
-let painScore = 0;
-
-//Different falling objects split into good(+ points) and bad (minus points):
-//Good objects: Water (+2), Sleep (+2), Yoga (+1), Kiwi (+1)
-//Bad objects: Cigarettes (-1), Alcohol (-1), Onions (-1), Stress (-2)
+/* let healthScore = 0;
+let painScore = 0; */
 
 //RANDOM FALLING POSITION OF OBJECTS ALONG X-AXIS WITHIN THE CANVAS WIDTH:
 let randomNumber = Math.floor(Math.random() * 900);
 
 //CREATE EMPTY OBJECTS ARRAY:
-const objArray = [ 
-    //{item: water, points: 2, img: water, x: 0, y: -10},
-   /*  {item: sleep, points: 2, img: water, x: randomNumber, y: -10},
-    {item: yoga, points: 1, img: water, x: randomNumber, y: -10},
-    {item: kiwi, points: 1, img: water, x: randomNumber, y: -10}, */
-  //  {item: cigarette, points: -1, img: water, x: randomNumber, y: -10},
-  //  {item: alcohol, points: -1, img: water, x: randomNumber, y: -10},
-    /* {item: onions, points: -1},
-    {item: stress, points: -1}, */
-];
+const objArray = [];
 
 
 //PLAYER
@@ -91,11 +78,6 @@ class playerObject {
         if(this.x < canvas.width - this.w + 35) this.x +=15
     } 
 
-    checkCollision(){
-        if(gamePlayer.x > objectImg.x etc){
-            objImg 
-        }
-    }
 }
 
 const player = new playerObject (gamePlayer, 150, 190, 150, 180)
@@ -141,29 +123,32 @@ class fallingObjects {
 
     fallDown() {
        // this.y = this.y +2
-       if(this.y + 3 > 504) {
+       if(this.y + 2 > 504) {
            this.y = -50
            this.x = Math.floor(Math.random()*canvas.width - 50)
        } else {
-           this.y = this.y + 3
+           this.y = this.y + 2
        }
     }
-
     
 }
 //these objects are coded to fall down from top:
-let kiwiObj = new fallingObjects(kiwi, 5, -10, 50, 50, true)
+/* let kiwiObj = new fallingObjects(kiwi, 5, -10, 50, 50, true)
 let yogaObj = new fallingObjects(yoga, 250, -10, 50, 50, true)
-let sleepObj = new fallingObjects(sleep, 5, -10, 50, 50, true)
+let sleepObj = new fallingObjects(sleep, 5, -10, 50, 50, true) */
 let waterObj = new fallingObjects(water, 5, -10, 50, 50, true)
 
-let alcoholObj = new fallingObjects(alcohol, 500, -10, 50, 50, false)
-let stressObj = new fallingObjects(stress, 5, -10, 50, 50, false) // image not showing
+/* let alcoholObj = new fallingObjects(alcohol, 500, -10, 50, 50, false)
+let stressObj = new fallingObjects(stress, 5, -10, 50, 50, false)
 let onionObj = new fallingObjects(onion, 5, -10, 50, 50, false) 
-let smokeObj = new fallingObjects(smoke, 5, -10, 50, 50, false)
+let smokeObj = new fallingObjects(smoke, 5, -10, 50, 50, false) */
 
 //this is the array to keep all the falling objects:
-const allObjArray = [kiwiObj, yogaObj, sleepObj, waterObj, alcoholObj, onionObj, smokeObj];
+const allObjArray = [
+   // kiwiObj, yogaObj, sleepObj, 
+    waterObj
+    //stressObj, alcoholObj, onionObj, smokeObj
+];
 
 
 //this is to separate all objects that ADD points:
@@ -193,7 +178,16 @@ const allObjArray = [kiwiObj, yogaObj, sleepObj, waterObj, alcoholObj, onionObj,
     }
 } */
 
-
+/*  function collideObject() {
+    if (player.x + player.width >= waterObj.x && 
+    player.x <= waterObj.x + waterObj.width &&
+    player.y <= waterObj.y + waterObj.height && 
+    player.y + player.height >= waterObj.y){
+        alert('works')
+    } else {
+        console.log('not working')
+    }
+}  */
 
 //move the player with arrow keyboard
 document.addEventListener('keydown', event => {
@@ -222,16 +216,22 @@ setInterval(() => {
     ctx.clearRect(0,0,canvas.width, canvas.height) 
     ctx.drawImage(bgImg, 0, 0)
     player.draw()
+    //collideObject()
     allObjArray.forEach((element) => { //callback function
         element.draw()        
         element.fallDown() 
-        if(player.x === element.x && player.y === element.y) {
+        
+        if(player.x + player.width >= element.x && 
+            player.x <= element.x + element.width &&
+            player.y <= element.y + element.height && 
+            player.y + player.height >= element.y) {
             if(element.isHealthy) {
-                healthScore++
+                alert('hello')
             } else {
-                painScore++
-            }
+               alert('not working')
+            } 
           }
+          console.log({ playerX: player.x, playerY: player.y, elementX: element.x, elementY: element.y})
     })
 }, 20)
 }
