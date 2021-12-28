@@ -130,7 +130,13 @@ class fallingObjects {
            this.y = this.y + 2
        }
     }
-    
+    /* 
+    collision(){
+        if(this.x + this.width >= waterObj.x && 
+            this.x <= waterObj.x + waterObj.width &&
+            this.y <= waterObj.y + waterObj.height && 
+            this.y + this.height >= waterObj.y)
+    } */
 }
 //these objects are coded to fall down from top:
 /* let kiwiObj = new fallingObjects(kiwi, 5, -10, 50, 50, true)
@@ -221,17 +227,17 @@ setInterval(() => {
         element.draw()        
         element.fallDown() 
         
-        if(player.x + player.width >= element.x && 
+        if(player.x + player.w >= element.x && 
             player.x <= element.x + element.width &&
             player.y <= element.y + element.height && 
-            player.y + player.height >= element.y) {
+            player.y + player.w >= element.y) {
             if(element.isHealthy) {
                 alert('hello')
             } else {
                alert('not working')
             } 
           }
-          console.log({ playerX: player.x, playerY: player.y, elementX: element.x, elementY: element.y})
+         // console.log({ playerX: player.x, playerY: player.y, elementX: element.x, elementY: element.y})
     })
 }, 20)
 }
