@@ -60,6 +60,7 @@ class playerObject {
     }
     draw() {
         ctx.drawImage(this.img, this.x, this.y, this.w, this.h)
+        drawRectangle(this.x, this.y, this.w, this.h)
     }
 
     moveUp(){
@@ -71,16 +72,16 @@ class playerObject {
     }
 
     moveLeft(){
-        if(this.x > -35) this.x -=15
+        if(this.x > 0) this.x -=15
     }
 
     moveRight(){
-        if(this.x < canvas.width - this.w + 35) this.x +=15
+        if(this.x + 10 < canvas.width - this.w) this.x +=15
     } 
 
 }
 
-const player = new playerObject (gamePlayer, 150, 190, 150, 180)
+const player = new playerObject (gamePlayer, 150, 190, 65, 160)
 
 // BORDER OF THE GAME
 /* class gameBorder {
@@ -108,17 +109,18 @@ const borders = [
 //FALLING OBJECTS
 
 class fallingObjects {
-    constructor(objImg, objX,objY, objW, objH, objIsHealthy){
+    constructor(objImg, objX,objY, objW, objH, isHealthy){
         this.img = objImg 
         this.x = objX
         this.y = objY
         this.w = objW
         this.h = objH
-        this.IsHealthy = objIsHealthy
+        this.isHealthy = isHealthy
     }
 
     draw() {
         ctx.drawImage(this.img, this.x, this.y, 50, 50)
+        drawRectangle(this.x, this.y, 50, 50)
     }
 
     fallDown() {
@@ -139,21 +141,19 @@ class fallingObjects {
     } */
 }
 //these objects are coded to fall down from top:
-/* let kiwiObj = new fallingObjects(kiwi, 5, -10, 50, 50, true)
-let yogaObj = new fallingObjects(yoga, 250, -10, 50, 50, true)
-let sleepObj = new fallingObjects(sleep, 5, -10, 50, 50, true) */
-let waterObj = new fallingObjects(water, 5, -10, 50, 50, true)
+let kiwiObj = new fallingObjects(kiwi, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, true)
+let yogaObj = new fallingObjects(yoga, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, true)
+let sleepObj = new fallingObjects(sleep, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, true) 
+let waterObj = new fallingObjects(water, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, true)
 
-/* let alcoholObj = new fallingObjects(alcohol, 500, -10, 50, 50, false)
-let stressObj = new fallingObjects(stress, 5, -10, 50, 50, false)
-let onionObj = new fallingObjects(onion, 5, -10, 50, 50, false) 
-let smokeObj = new fallingObjects(smoke, 5, -10, 50, 50, false) */
+let alcoholObj = new fallingObjects(alcohol, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, false)
+let stressObj = new fallingObjects(stress, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, false)
+let onionObj = new fallingObjects(onion, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, false) 
+let smokeObj = new fallingObjects(smoke, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, false) 
 
 //this is the array to keep all the falling objects:
 const allObjArray = [
-   // kiwiObj, yogaObj, sleepObj, 
-    waterObj
-    //stressObj, alcoholObj, onionObj, smokeObj
+ kiwiObj, yogaObj, sleepObj, waterObj, stressObj, alcoholObj, onionObj, smokeObj
 ];
 
 
@@ -209,6 +209,17 @@ document.addEventListener('keydown', event => {
     }    
 }) 
 
+function drawDot(x,y) {
+    ctx.beginPath();
+    ctx.fillStyle = 'red';
+    ctx.fillRect(x, y, 10, 10);
+    ctx.fill();
+}
+
+function drawRectangle(x, y, width, height) {
+    ctx.strokeRect(x, y, width, height);
+}
+
 
 //GAME LOOP
 function startGame(){
@@ -228,13 +239,13 @@ setInterval(() => {
         element.fallDown() 
         
         if(player.x + player.w >= element.x && 
-            player.x <= element.x + element.width &&
-            player.y <= element.y + element.height && 
+            player.x <= element.x + element.w &&
+            player.y <= element.y + element.h && 
             player.y + player.w >= element.y) {
             if(element.isHealthy) {
-                alert('hello')
+                console.log('healthy')
             } else {
-               alert('not working')
+               console.log('unhealthy')
             } 
           }
          // console.log({ playerX: player.x, playerY: player.y, elementX: element.x, elementY: element.y})
