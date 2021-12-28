@@ -236,7 +236,14 @@ function drawDot(x,y) {
 function drawRectangle(x, y, width, height) {
     ctx.strokeRect(x, y, width, height);
 }
-
+//GAME OVER
+function gameOver(){
+    if(healthScore === 3){
+        alert('You won!Hurray!')
+    } else if (painScore === 1){
+        alert('You need to go to ER :(')
+    } 
+}
 
 //GAME LOOP
 function startGame(){
@@ -252,7 +259,7 @@ setInterval(() => {
     player.draw()
     drawScore()
     //collideObject()
-    allObjArray.forEach((element) => { //callback function
+    allObjArray.forEach((element, index) => { //callback function
         element.draw()        
         element.fallDown() 
         
@@ -263,8 +270,15 @@ setInterval(() => {
             if(element.isHealthy) {
                 healthScore++
             } else {
-               painScore++
+               painScore++            
             } 
+            allObjArray.splice(index,1)
+            if(painScore === 1 || healthScore === 3){
+                gameOver()
+                return  
+                //resetGame()
+                //game over screen
+            }
           }
          // console.log({ playerX: player.x, playerY: player.y, elementX: element.x, elementY: element.y})
     })
