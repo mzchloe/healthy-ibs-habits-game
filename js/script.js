@@ -8,6 +8,13 @@ const ctx = canvas.getContext("2d");
 const bgImg = new Image();
 bgImg.src = "./Images/bgField.jpg";
 
+//SCORE ICONS
+const healthImg = new Image();
+healthImg.src = "./Images/healthicon.png";
+
+const painImg = new Image();
+painImg.src = "./Images/painicon.png";
+
 //Replace -const gamePlayer = new Player(20,20,50,50, 'aliceblue')- with an image:
 //PLAYER IMG
 const gamePlayer = new Image();
@@ -39,9 +46,18 @@ const stress = new Image();
 stress.src = "../Images/stress.png";
 
 let intervalID = 0;
-/* let healthScore = 0;
-let painScore = 0; */
 
+let healthScore = 0;
+let painScore = 0;
+
+
+function drawScore(){
+    ctx.drawImage(healthImg, 10, 10, 30, 23)
+    ctx.drawImage(painImg, 10, 43, 23, 30)
+    ctx.font = '18px verdana'
+    ctx.fillText(`Health Score: ${healthScore}`, 50, 28)
+    ctx.fillText(`Pain Score: ${painScore}`, 50, 62)
+}
 //RANDOM FALLING POSITION OF OBJECTS ALONG X-AXIS WITHIN THE CANVAS WIDTH:
 let randomNumber = Math.floor(Math.random() * 900);
 
@@ -234,6 +250,7 @@ setInterval(() => {
     ctx.clearRect(0,0,canvas.width, canvas.height) 
     ctx.drawImage(bgImg, 0, 0)
     player.draw()
+    drawScore()
     //collideObject()
     allObjArray.forEach((element) => { //callback function
         element.draw()        
@@ -244,9 +261,9 @@ setInterval(() => {
             player.y <= element.y + element.h && 
             player.y + player.w >= element.y) {
             if(element.isHealthy) {
-                console.log('healthy')
+                healthScore++
             } else {
-               console.log('unhealthy')
+               painScore++
             } 
           }
          // console.log({ playerX: player.x, playerY: player.y, elementX: element.x, elementY: element.y})
