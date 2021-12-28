@@ -76,7 +76,6 @@ class playerObject {
     }
     draw() {
         ctx.drawImage(this.img, this.x, this.y, this.w, this.h)
-        drawRectangle(this.x, this.y, this.w, this.h)
     }
 
     moveUp(){
@@ -137,7 +136,6 @@ class fallingObjects {
 
     draw() {
         ctx.drawImage(this.img, this.x, this.y, 50, 50)
-        drawRectangle(this.x, this.y, 50, 50)
     }
 
     fallDown() {
@@ -226,16 +224,6 @@ document.addEventListener('keydown', event => {
     }    
 }) 
 
-function drawDot(x,y) {
-    ctx.beginPath();
-    ctx.fillStyle = 'red';
-    ctx.fillRect(x, y, 10, 10);
-    ctx.fill();
-}
-
-function drawRectangle(x, y, width, height) {
-    ctx.strokeRect(x, y, width, height);
-}
 //GAME OVER
 function gameOver(){
     if(healthScore === 3){
