@@ -116,6 +116,7 @@ class fallingObjects {
         this.w = objW
         this.h = objH
         this.isHealthy = isHealthy
+        this.speed = isHealthy ? 2 : 4
     }
 
     draw() {
@@ -125,11 +126,11 @@ class fallingObjects {
 
     fallDown() {
        // this.y = this.y +2
-       if(this.y + 2 > 504) {
+       if(this.y + this.speed > 504) {
            this.y = -50
            this.x = Math.floor(Math.random()*canvas.width - 50)
        } else {
-           this.y = this.y + 2
+           this.y = this.y + this.speed
        }
     }
     /* 
