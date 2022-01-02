@@ -46,6 +46,7 @@ onion.src = "./Images/onion.png";
 const stress = new Image();
 stress.src = "../Images/stress.png";
 
+//SCORE BOARD
 
 let healthScore = 0;
 let painScore = 0;
@@ -58,11 +59,6 @@ let painScore = 0;
     ctx.fillText(`Health Score: ${healthScore}`, 50, 28)
     ctx.fillText(`Pain Score: ${painScore}`, 50, 62)
 } 
-//RANDOM FALLING POSITION OF OBJECTS ALONG X-AXIS WITHIN THE CANVAS WIDTH:
-let randomNumber = Math.floor(Math.random() * canvas.width);
-
-//CREATE EMPTY OBJECTS ARRAY:
-const objArray = [];
 
 
 //PLAYER
@@ -98,6 +94,9 @@ class playerObject {
 
 //CREATE THE PLAYER OBJECT
 const player = new playerObject (gamePlayer, 150, 190, 65, 160)
+
+//RANDOM FALLING POSITION OF OBJECTS ALONG X-AXIS WITHIN THE CANVAS WIDTH:
+let randomNumber = Math.floor(Math.random() * canvas.width);
 
 
 
@@ -152,7 +151,7 @@ function getRandomObject(isHealthy) {
     const elementsArray = isHealthy ? healthyObjects : unhealthyObjects
 
     const randomImg = elementsArray[Math.floor(Math.random()* elementsArray.length)]
-    const randomX = Math.floor(Math.random() * (canvas.width + 50) + canvas.width - 50)
+    const randomX = Math.floor(Math.random() * canvas.width + canvas.width - 50)
     const randomElement = new fallingObjects(randomImg, randomX, -50, 50, 50, isHealthy)
 
     return randomElement
