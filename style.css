@@ -2,6 +2,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+
 }
 
 body {
@@ -9,40 +11,55 @@ body {
     cursor: crosshair;
   }
 
-  body h1 {
+  #game-intro h1 {
+    z-index: 4;
     position: absolute;
-    top: 150px;
-    left: 550px;
+    top: 50px;
+    left: 300px;
     color: white;
-    font-family:fantasy ;
-    font-size: 30px;
+    font-family: fantasy;
+    font-size: 1.2em;
     text-transform: uppercase;
+    text-align: center;
   }
   
+  #game-intro {
+    z-index: 2;
+    position: absolute;
+    top: 50px;
+    width: 1200px;
+    height: 504px;
+    
+  }
+
+  #instructions {
+    z-index: 1;
+    position: absolute;
+    top: 100px;
+    left: 200px;
+    width: 500px;
+    height: 300px;
+    font-size: 16px;
+    color: white;
+    /*font-family: Verdana, Geneva, Tahoma, sans-serif; */
+  }
+
   body button {
     position: absolute;
     z-index: 1;
-    top: 200px;
-    left: 680px;
-    font-size: 18px;
+    top: 350px;
+    left: 400px;
+    font-size: 16px;
     background-color: white;
     color: black;
-    padding: 10px 10px;
+    padding: 5px 10px;
     border: 0;
     box-shadow: 0;
     border-radius: 5px;
     margin-bottom: 20px;
   }
 
-  #game-intro {
-    z-index: 2;
-    position: absolute;
-    top: 100px;
-    width: 1200px;
-    height: 504px;
-    
-  }
-  
+ 
  canvas {
     z-index: 0;
     position: absolute;

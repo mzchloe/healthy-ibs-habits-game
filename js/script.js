@@ -15,8 +15,9 @@ healthImg.src = "./Images/healthicon.png";
 const painImg = new Image();
 painImg.src = "./Images/painicon.png";
 
-//Replace -const gamePlayer = new Player(20,20,50,50, 'aliceblue')- with an image:
+
 //PLAYER IMG
+//Replace -const gamePlayer = new Player(20,20,50,50, 'aliceblue')- with an image:
 const gamePlayer = new Image();
 gamePlayer.src = "./Images/girl.png";
 
@@ -45,21 +46,20 @@ onion.src = "./Images/onion.png";
 const stress = new Image();
 stress.src = "../Images/stress.png";
 
-let intervalID = 0;
 
 let healthScore = 0;
 let painScore = 0;
 
 
-function drawScore(){
+ function drawScore(){
     ctx.drawImage(healthImg, 10, 10, 30, 23)
     ctx.drawImage(painImg, 10, 43, 23, 30)
-    ctx.font = '18px verdana'
+    ctx.font = '18px verdana' //change text color to white 
     ctx.fillText(`Health Score: ${healthScore}`, 50, 28)
     ctx.fillText(`Pain Score: ${painScore}`, 50, 62)
-}
+} 
 //RANDOM FALLING POSITION OF OBJECTS ALONG X-AXIS WITHIN THE CANVAS WIDTH:
-let randomNumber = Math.floor(Math.random() * 900);
+let randomNumber = Math.floor(Math.random() * canvas.width);
 
 //CREATE EMPTY OBJECTS ARRAY:
 const objArray = [];
@@ -79,50 +79,29 @@ class playerObject {
     }
 
     moveUp(){
-       if(this.y > 0) this.y -=15
+       if(this.y > 0) this.y -=16
     }
 
     moveDown(){
-       if(this.y < canvas.height - this.h) this.y +=15;
+       if(this.y < canvas.height - this.h) this.y +=16;
     }
 
     moveLeft(){
-        if(this.x > 0) this.x -=15
+        if(this.x > 0) this.x -=16
     }
 
     moveRight(){
-        if(this.x + 10 < canvas.width - this.w) this.x +=15
+        if(this.x + 10 < canvas.width - this.w) this.x +=16
     } 
 
 }
 
+//CREATE THE PLAYER OBJECT
 const player = new playerObject (gamePlayer, 150, 190, 65, 160)
 
-// BORDER OF THE GAME
-/* class gameBorder {
-    constructor (objX, objY, objW, objH, objColor){
-        this.x = objX
-        this.y = objY
-        this.w = objW
-        this.h = objH
-        this.color = objColor
-    }
 
-    draw(){
-        ctx.fillStyle = this.color
-        ctx.fillRect(this.x, this.y, this.w, this.h, this.color)
-    }
-}
-
-const borders = [
-    new gameBorder(0, 0, canvas.width, 1, 'black'),
-    new gameBorder(0, 503, canvas.width, 1, 'black'),
-    new gameBorder(0, 0, 1, canvas.height, 'black'),
-    new gameBorder(899, 0, 1, canvas.height, 'black'),
-]; */
 
 //FALLING OBJECTS
-
 class fallingObjects {
     constructor(objImg, objX,objY, objW, objH, isHealthy){
         this.img = objImg 
@@ -147,130 +126,120 @@ class fallingObjects {
            this.y = this.y + this.speed
        }
     }
-    /* 
-    collision(){
-        if(this.x + this.width >= waterObj.x && 
-            this.x <= waterObj.x + waterObj.width &&
-            this.y <= waterObj.y + waterObj.height && 
-            this.y + this.height >= waterObj.y)
-    } */
+  
 }
 //these objects are coded to fall down from top:
-let kiwiObj = new fallingObjects(kiwi, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, true)
-let yogaObj = new fallingObjects(yoga, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, true)
-let sleepObj = new fallingObjects(sleep, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, true) 
-let waterObj = new fallingObjects(water, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, true)
+// let kiwiObj = new fallingObjects(kiwi, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, true)
+// let yogaObj = new fallingObjects(yoga, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, true)
+// let sleepObj = new fallingObjects(sleep, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, true) 
+// let waterObj = new fallingObjects(water, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, true)
 
-let alcoholObj = new fallingObjects(alcohol, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, false)
-let stressObj = new fallingObjects(stress, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, false)
-let onionObj = new fallingObjects(onion, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, false) 
-let smokeObj = new fallingObjects(smoke, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, false) 
+// let alcoholObj = new fallingObjects(alcohol, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, false)
+// let stressObj = new fallingObjects(stress, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, false)
+// let onionObj = new fallingObjects(onion, Math.floor(Math.random()*(canvas.width + 50) + cavas.width - 50), -10, 50, 50, false) 
+// let smokeObj = new fallingObjects(smoke, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, false) 
+
+//Array with the healthy objects and unhealthy objects
+const healthyObjects = [yoga, water, kiwi, sleep]
+const unhealthyObjects = [stress, alcohol, smoke, onion]
+
+//Max objects to show at the same time on the canvas per interval 
+const maxHealthyElements = 3
+const maxUnhealthyElements = 3
+
+//GENERATING RANDOM OBJECTS TO FALL DOWN
+function getRandomObject(isHealthy) {
+    const elementsArray = isHealthy ? healthyObjects : unhealthyObjects
+
+    const randomImg = elementsArray[Math.floor(Math.random()* elementsArray.length)]
+    const randomX = Math.floor(Math.random() * (canvas.width + 50) + canvas.width - 50)
+    const randomElement = new fallingObjects(randomImg, randomX, -50, 50, 50, isHealthy)
+
+    return randomElement
+}
 
 //this is the array to keep all the falling objects:
-const allObjArray = [
- kiwiObj, yogaObj, sleepObj, waterObj, stressObj, alcoholObj, onionObj, smokeObj
+const elementsInGame = [
+  getRandomObject(false)
 ];
-
-
-//this is to separate all objects that ADD points:
-/* const addPointObjects = [(kiwiObj, objX, objY, objW, objH), 
-    (yogaObj, objX, objY, objW, objH),
-    (sleepObj, objX, objY, objW, objH),
-    (waterObj, objX, objY, objW, objH)]; */
-
-//this is to separate all objects that DEDUCT points: 
-/* const deductPointsObjects = [
-    (alcoholObj, objX, objY, objW, objH),
-    (stressObj, objX, objY, objW, objH),
-    (onionObj, objX, objY, objW, objH),
-    (smokeObj, objX, objY, objW, objH)]; */
-
-//PLAYER 
-
-//ATTEMPT on collision detection for objects falling down
-/* function checkCollision (player, object){
-    //checks if player hits the objects that will add points:
-    if (gamePlayer.x + gamePlayer.width > addPointObjects.x) { // etc.)
-        //score++ (let scoreHealth = 0; defined below)
-    } 
-    //checks if the player hits objects that will deduct points:
-    else if (gamePlayer.x + gamePlayer.width > deductPointsObjects.x) {
-        //score-- (let scorePain = 10; defined below)
-    }
-} */
-
-/*  function collideObject() {
-    if (player.x + player.width >= waterObj.x && 
-    player.x <= waterObj.x + waterObj.width &&
-    player.y <= waterObj.y + waterObj.height && 
-    player.y + player.height >= waterObj.y){
-        alert('works')
-    } else {
-        console.log('not working')
-    }
-}  */
 
 //move the player with arrow keyboard
 document.addEventListener('keydown', event => {
-
     if(event.keyCode === 38) {
         player.moveUp() //-= 15 is not needed as the function is added
     } else if(event.keyCode === 40) {
-        player.moveDown() //+=15
+        player.moveDown() 
     } else if(event.keyCode === 37) {
-        player.moveLeft() //-=15
+        player.moveLeft() 
     } else if(event.keyCode === 39) {
-        player.moveRight() //+=15
+        player.moveRight() 
     }    
 }) 
 
 //GAME OVER
 function gameOver(){
-    if(healthScore === 3){
+    if(healthScore === 10){
         alert('You won!Hurray!')
-    } else if (painScore === 1){
+    } else if (painScore === 5){
         alert('You need to go to ER :(')
     } 
 }
 
 //GAME LOOP
 function startGame(){
-setInterval(() => {
-    /* intervalID++
-    if (intervalID == 20){
-        let addRandomObj = Math.floor(Math.random() * allObjArray.length)
-        objArray.push(allObjArray[addRandomObj])
-        //console.log(allObjArray[addRandomObj])
-    } */
-    ctx.clearRect(0,0,canvas.width, canvas.height) 
-    ctx.drawImage(bgImg, 0, 0)
-    player.draw()
-    drawScore()
-    //collideObject()
-    allObjArray.forEach((element, index) => { //callback function
-        element.draw()        
-        element.fallDown() 
+    // every three seconds, add a random healthy element
+    setInterval(() => {
+        const healthyElements = elementsInGame.filter((element) => element.isHealthy === true)
+        if(healthyElements.length < maxHealthyElements) {
+            // const randomImg = healthyObjects[Math.floor(Math.random()* healthyObjects.length)]
+            // const randomX = Math.floor(Math.random() * (canvas.width + 50) + canvas.width - 50)
+            // allObjArray.push(new fallingObjects(randomImg, randomX, -50, 50, 50, true))
+            elementsInGame.push(getRandomObject(true))
+        }
+    }, 3000)
+
+    // every two seconds, add a random unhealthy element
+    setInterval(() => {
+        const unhealthyElements = elementsInGame.filter((element) => element.isHealthy === false)
+        if(unhealthyElements.length < maxUnhealthyElements) {
+            // const randomImg = unhealthyObjects[Math.floor(Math.random()* unhealthyObjects.length)]
+            // const randomX = Math.floor(Math.random() * (canvas.width + 50) + canvas.width - 50)
+            // allObjArray.push(new fallingObjects(randomImg, randomX, -50, 50, 50, false))
+            elementsInGame.push(getRandomObject(false))
+        }
+    }, 2000)
+
+    setInterval(() => {
+        // draw the game background
+        ctx.clearRect(0,0,canvas.width, canvas.height) 
+        ctx.drawImage(bgImg, 0, 0)
+        drawScore()
+
+        player.draw()
         
-        if(player.x + player.w >= element.x && 
-            player.x <= element.x + element.w &&
-            player.y <= element.y + element.h && 
-            player.y + player.w >= element.y) {
-            if(element.isHealthy) {
-                healthScore++
-            } else {
-               painScore++            
-            } 
-            allObjArray.splice(index,1)
-            if(painScore === 1 || healthScore === 3){
-                gameOver()
-                return  
-                //resetGame()
-                //game over screen
+        elementsInGame.forEach((element, index) => { //callback function
+            element.draw()        
+            element.fallDown() 
+            
+            if(player.x + player.w >= element.x && 
+                player.x <= element.x + element.w &&
+                player.y <= element.y + element.h && 
+                player.y + player.w >= element.y) {
+                if(element.isHealthy) {
+                    healthScore++
+                } else {
+                painScore++            
+                } 
+                elementsInGame.splice(index,1)
+                if(painScore === 5 || healthScore === 10){
+                    gameOver()
+                    return  
+                    //resetGame()
+                    //game over screen
+                }
             }
-          }
-         // console.log({ playerX: player.x, playerY: player.y, elementX: element.x, elementY: element.y})
-    })
-}, 20)
+        })
+    }, 20)
 }
 
 
