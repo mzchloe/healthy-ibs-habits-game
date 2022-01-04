@@ -286,10 +286,12 @@ function startGame(){
                 player.y + player.w >= element.y) {
                 if(element.isHealthy) {
                     healthScore++
-                    SPEED = SPEED +1
+                    if(SPEED > 8) {
+                        SPEED = SPEED +1
+                    }
                 } else {
                     painScore++  
-                    if(SPEED > 2){
+                    if(SPEED < 2){
                        SPEED = SPEED -1   
                     }   
                 } 
