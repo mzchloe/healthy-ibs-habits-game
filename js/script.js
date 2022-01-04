@@ -60,6 +60,10 @@ let painScore = 0;
     ctx.fillText(`Pain Score: ${painScore}`, 50, 62)
 } 
 
+//Movement of player using velocity and speed
+let horizontalSpeed = 0
+let verticalSpeed = 0
+let SPEED = 4
 
 //PLAYER
 class playerObject {
@@ -72,9 +76,34 @@ class playerObject {
     }
     draw() {
         ctx.drawImage(this.img, this.x, this.y, this.w, this.h)
+        this.move()
+    }
+    
+    move() {
+        
+        const canMoveUp = this.y + verticalSpeed > 0
+        const canMoveDown = this.y + verticalSpeed < canvas.height - this.h 
+        const canMoveLeft = this.x + horizontalSpeed > 0 
+        const canMoveRight = this.x + horizontalSpeed < canvas.width - this.w 
+
+        if (canMoveUp && canMoveDown) {
+            this.y += verticalSpeed
+        }
+
+        if(canMoveLeft && canMoveRight) {
+            this.x += horizontalSpeed
+        }
+
+       /*  if (this.y + verticalSpeed > 0 && this.y < canvas.height - this.h) {
+            this.y += verticalSpeed
+        }
+
+        if (this.x > 0 && this.x + 10 < canvas.width - this.w){
+            this.x +=horizontalSpeed
+        } */
     }
 
-    moveUp(){
+/*     moveUp(){
        if(this.y > 0) this.y -=16
     }
 
@@ -88,7 +117,7 @@ class playerObject {
 
     moveRight(){
         if(this.x + 10 < canvas.width - this.w) this.x +=16
-    } 
+    }  */
 
 }
 
@@ -114,6 +143,7 @@ class fallingObjects {
 
     draw() {
         ctx.drawImage(this.img, this.x, this.y, 50, 50)
+        this.fallDown()
     }
 
     fallDown() {
@@ -162,18 +192,45 @@ const elementsInGame = [
   getRandomObject(false)
 ];
 
-//move the player with arrow keyboard
+
+
+//Defining the direction of where the player is headed 
 document.addEventListener('keydown', event => {
     if(event.keyCode === 38) {
-        player.moveUp() //-= 15 is not needed as the function is added
+        verticalSpeed = SPEED * -1
+        
     } else if(event.keyCode === 40) {
-        player.moveDown() 
+        verticalSpeed = SPEED
+     
     } else if(event.keyCode === 37) {
-        player.moveLeft() 
+        horizontalSpeed = SPEED * -1
+    
     } else if(event.keyCode === 39) {
-        player.moveRight() 
+       horizontalSpeed = SPEED 
+        
     }    
 }) 
+
+//Stops the movement from the positions movement 
+document.addEventListener('keyup', event => {
+    if(event.keyCode === 38) {
+        verticalSpeed = 0
+    } else if(event.keyCode === 40) {
+        verticalSpeed = 0
+       
+    } else if(event.keyCode === 37) {
+        horizontalSpeed = 0
+        
+    } else if(event.keyCode === 39) {
+       horizontalSpeed = 0
+       
+    }    
+}) 
+
+
+let unhealthyElementId
+let healthyElementId
+let gameloopId
 
 //GAME OVER
 function gameOver(){
@@ -182,12 +239,15 @@ function gameOver(){
     } else if (painScore === 5){
         alert('You need to go to ER :(')
     } 
+    clearInterval(unhealthyElementId) //falling down unhealthy objects interval ID 
+    clearInterval(healthyElementId)
+    clearInterval(gameloopId)
 }
 
 //GAME LOOP
 function startGame(){
     // every three seconds, add a random healthy element
-    setInterval(() => {
+   healthyElementId = setInterval(() => {
         const healthyElements = elementsInGame.filter((element) => element.isHealthy === true)
         if(healthyElements.length < maxHealthyElements) {
             // const randomImg = healthyObjects[Math.floor(Math.random()* healthyObjects.length)]
@@ -198,7 +258,7 @@ function startGame(){
     }, 3000)
 
     // every two seconds, add a random unhealthy element
-    setInterval(() => {
+   unhealthyElementId = setInterval(() => {
         const unhealthyElements = elementsInGame.filter((element) => element.isHealthy === false)
         if(unhealthyElements.length < maxUnhealthyElements) {
             // const randomImg = unhealthyObjects[Math.floor(Math.random()* unhealthyObjects.length)]
@@ -208,7 +268,7 @@ function startGame(){
         }
     }, 2000)
 
-    setInterval(() => {
+   gameloopId = setInterval(() => {
         // draw the game background
         ctx.clearRect(0,0,canvas.width, canvas.height) 
         ctx.drawImage(bgImg, 0, 0)
@@ -218,7 +278,7 @@ function startGame(){
         
         elementsInGame.forEach((element, index) => { //callback function
             element.draw()        
-            element.fallDown() 
+           // element.fallDown() 
             
             if(player.x + player.w >= element.x && 
                 player.x <= element.x + element.w &&
@@ -226,8 +286,12 @@ function startGame(){
                 player.y + player.w >= element.y) {
                 if(element.isHealthy) {
                     healthScore++
+                    SPEED = SPEED +1
                 } else {
-                painScore++            
+                    painScore++  
+                    if(SPEED > 2){
+                       SPEED = SPEED -1   
+                    }   
                 } 
                 elementsInGame.splice(index,1)
                 if(painScore === 5 || healthScore === 10){
