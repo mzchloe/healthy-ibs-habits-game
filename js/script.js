@@ -10,7 +10,7 @@ bgImg.src = "./Images/bgField.jpg";
 
 //SCORE ICONS
 const healthImg = new Image();
-healthImg.src = "./Images/healthicon.png";
+healthImg.src = "./Images/heart.png";
 
 const painImg = new Image();
 painImg.src = "./Images/painicon.png";
