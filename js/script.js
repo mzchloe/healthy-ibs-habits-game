@@ -65,16 +65,16 @@ let SPEED = 5
 
 //sounds
 let healthSound = new Audio();
-healthSound.src = "http://freesoundeffect.net/sites/default/files/game-win-bell-sound-effect-3518677.mp3";
+healthSound.src = "./sounds/health.mp3";
 
 let painSound = new Audio();
-painSound.src = "../sounds/pain.mp3";
+painSound.src = "./sounds/pain.mp3";
 
 let bgMusic = new Audio();
-bgMusic.src = "../sounds/bensound-buddy.mp3";
+bgMusic.src = "./sounds/bensound-buddy.mp3";
 
 let gameoverSound = new Audio();
-gameoverSound.src = "../sounds/game-over-30-sound-effect-65063477.mp3";
+gameoverSound.src = "./sounds/gameover.mp3";
 
 //SCORE BOARD 
 
@@ -240,7 +240,7 @@ function gameOver(){
 
 //GAME LOOP
 function startGame(){
-    bgMusic.play()
+    
     // every three seconds, add a random healthy element
    healthyElementId = setInterval(() => {
         const healthyElements = elementsInGame.filter((element) => element.isHealthy === true)
@@ -263,7 +263,9 @@ function startGame(){
         }
     }, 2000)
 
-   gameloopId = setInterval(() => {
+    bgMusic.play()
+
+    gameloopId = setInterval(() => {
         // draw the game background
         ctx.clearRect(0,0,canvas.width, canvas.height) 
         ctx.drawImage(bgImg, 0, 0)
