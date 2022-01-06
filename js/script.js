@@ -68,7 +68,7 @@ let healthSound = new Audio();
 healthSound.src = "http://freesoundeffect.net/sites/default/files/game-win-bell-sound-effect-3518677.mp3";
 
 let painSound = new Audio();
-painSound.src = "http://freesoundeffect.net/sites/default/files/negative-game-hit-01-sound-effect-47344971.mp3";
+painSound.src = "../sounds/pain.mp3";
 
 let bgMusic = new Audio();
 bgMusic.src = "../sounds/bensound-buddy.mp3";
@@ -240,6 +240,7 @@ function gameOver(){
 
 //GAME LOOP
 function startGame(){
+    bgMusic.play()
     // every three seconds, add a random healthy element
    healthyElementId = setInterval(() => {
         const healthyElements = elementsInGame.filter((element) => element.isHealthy === true)
@@ -267,7 +268,6 @@ function startGame(){
         ctx.clearRect(0,0,canvas.width, canvas.height) 
         ctx.drawImage(bgImg, 0, 0)
         drawScore()
-        bgMusic.play()
         player.draw()
         
         elementsInGame.forEach((element, index) => { //callback function
