@@ -24,13 +24,14 @@ body {
     text-decoration: underline;
     color: white;
   }
-  #game-screen {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
 
+img {
+  position: absolute;
+  top: 72px;
+  left: 550px;
+  width: 65px;
+  height: 160px;
+}
   #game-intro h1 {
     z-index: 4;
     position: absolute;

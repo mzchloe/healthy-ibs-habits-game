@@ -155,7 +155,9 @@ class fallingObjects {
     fallDown() {
        if(this.y + this.speed > 504) {
            this.y = -50
-           this.x = Math.floor(Math.random()*canvas.width - 50)
+           /* let startX =  Math.floor(Math.random() * (canvas.width - 100))
+           startX >= 0 && startX < 100 ? startX === 50 : null 
+           this.x = startX */
        } else {
            this.y = this.y + this.speed
        }
@@ -176,7 +178,7 @@ function getRandomObject(isHealthy) {
     const elementsArray = isHealthy ? healthyObjects : unhealthyObjects
 
     const randomImg = elementsArray[Math.floor(Math.random()* elementsArray.length)]
-    const randomX = Math.floor(Math.random() * canvas.width + canvas.width - 50)
+    const randomX = Math.floor(Math.random() * (canvas.width - 50))
     const randomElement = new fallingObjects(randomImg, randomX, -50, 50, 50, isHealthy)
 
     return randomElement
@@ -325,19 +327,3 @@ bgImg.onload = () => {
 }
 
 
-
-
-
-
-//INSTRUCTION STEPS:
-    
-//1.1 Player object: square (replace with image later) - done 
-
-//1.2 Create move() function so the player can make movements - done 
-
-
-
-//2.1 Create 1 falling object - healthy items vs. unhealthy items
-
-//2.2 Falling object: square (replace with images later)
-//2.3 Create a falling function, which is a scrolling function but vertically from X = 0
