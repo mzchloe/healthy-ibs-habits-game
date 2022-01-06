@@ -22,8 +22,9 @@ const gamePlayer = new Image();
 gamePlayer.src = "./Images/girl.png";
 
 //OBJECT IMAGES
-const kiwi = new Image(); //new Image() is the code for generating new image via JS
-kiwi.src = "./Images/kiwi.png"; //this is the source it takes the image from 
+//Healthy Objects
+const kiwi = new Image();
+kiwi.src = "./Images/kiwi.png"; 
 
 const yoga = new Image();
 yoga.src = "./Images/yoga.png";
@@ -34,6 +35,10 @@ water.src = "./Images/water.png";
 const sleep = new Image();
 sleep.src = "./Images/sleep.png";
 
+const meditation = new Image();
+meditation.src = "./Images/meditation.png";
+
+//Unhealthy Objects
 const smoke = new Image();
 smoke.src = "./Images/smoke.png";
 
@@ -44,26 +49,44 @@ const onion = new Image();
 onion.src = "./Images/onion.png";
 
 const stress = new Image();
-stress.src = "../Images/stress.png";
+stress.src = "./Images/stress.png";
 
-//SCORE BOARD
+const burger = new Image();
+burger.src = "./Images/burger.png";
 
+//Defining initial score board
 let healthScore = 0;
 let painScore = 0;
 
-
- function drawScore(){
-    ctx.drawImage(healthImg, 10, 10, 30, 23)
-    ctx.drawImage(painImg, 10, 43, 23, 30)
-    ctx.font = '18px verdana' //change text color to white 
-    ctx.fillText(`Health Score: ${healthScore}`, 50, 28)
-    ctx.fillText(`Pain Score: ${painScore}`, 50, 62)
-} 
-
-//Movement of player using velocity and speed
+//PLAYER MOVEMENT using velocity and speed
 let horizontalSpeed = 0
 let verticalSpeed = 0
-let SPEED = 4
+let SPEED = 5
+
+//sounds
+let healthSound = new Audio();
+healthSound.src = "../sounds/health.mp3";
+
+let painSound = new Audio();
+painSound.src = "../sounds/pain.mp3";
+
+let bgMusic = new Audio();
+bgMusic.src = "../sounds/bensound-buddy.mp3";
+
+let gameoverSound = new Audio();
+gameoverSound.src = "../sounds/game-over-30-sound-effect-65063477.mp3";
+
+//SCORE BOARD 
+
+ function drawScore(){
+    ctx.drawImage(healthImg, 15, 20, 30, 23)
+    ctx.drawImage(painImg, 15, 53, 23, 30)
+    ctx.font = '18px verdana' //change text color to white 
+    ctx.fillStyle = 'white'
+    ctx.fillText(`Health Score: ${healthScore}`, 55, 38)
+    ctx.fillText(`Pain Score: ${painScore}`, 55, 72)
+} 
+
 
 //PLAYER
 class playerObject {
@@ -103,30 +126,10 @@ class playerObject {
         } */
     }
 
-/*     moveUp(){
-       if(this.y > 0) this.y -=16
-    }
-
-    moveDown(){
-       if(this.y < canvas.height - this.h) this.y +=16;
-    }
-
-    moveLeft(){
-        if(this.x > 0) this.x -=16
-    }
-
-    moveRight(){
-        if(this.x + 10 < canvas.width - this.w) this.x +=16
-    }  */
-
 }
 
 //CREATE THE PLAYER OBJECT
 const player = new playerObject (gamePlayer, 150, 190, 65, 160)
-
-//RANDOM FALLING POSITION OF OBJECTS ALONG X-AXIS WITHIN THE CANVAS WIDTH:
-let randomNumber = Math.floor(Math.random() * canvas.width);
-
 
 
 //FALLING OBJECTS
@@ -142,12 +145,11 @@ class fallingObjects {
     }
 
     draw() {
-        ctx.drawImage(this.img, this.x, this.y, 50, 50)
+        ctx.drawImage(this.img, this.x, this.y, 40, 40)
         this.fallDown()
     }
 
     fallDown() {
-       // this.y = this.y +2
        if(this.y + this.speed > 504) {
            this.y = -50
            this.x = Math.floor(Math.random()*canvas.width - 50)
@@ -157,24 +159,14 @@ class fallingObjects {
     }
   
 }
-//these objects are coded to fall down from top:
-// let kiwiObj = new fallingObjects(kiwi, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, true)
-// let yogaObj = new fallingObjects(yoga, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, true)
-// let sleepObj = new fallingObjects(sleep, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, true) 
-// let waterObj = new fallingObjects(water, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, true)
-
-// let alcoholObj = new fallingObjects(alcohol, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, false)
-// let stressObj = new fallingObjects(stress, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, false)
-// let onionObj = new fallingObjects(onion, Math.floor(Math.random()*(canvas.width + 50) + cavas.width - 50), -10, 50, 50, false) 
-// let smokeObj = new fallingObjects(smoke, Math.floor(Math.random()*(canvas.width + 50) + canvas.width - 50), -10, 50, 50, false) 
 
 //Array with the healthy objects and unhealthy objects
-const healthyObjects = [yoga, water, kiwi, sleep]
-const unhealthyObjects = [stress, alcohol, smoke, onion]
+const healthyObjects = [yoga, water, kiwi, sleep, meditation]
+const unhealthyObjects = [stress, alcohol, smoke, onion, burger]
 
 //Max objects to show at the same time on the canvas per interval 
 const maxHealthyElements = 3
-const maxUnhealthyElements = 3
+const maxUnhealthyElements = 5
 
 //GENERATING RANDOM OBJECTS TO FALL DOWN
 function getRandomObject(isHealthy) {
@@ -234,9 +226,11 @@ let gameloopId
 
 //GAME OVER
 function gameOver(){
-    if(healthScore === 10){
+    if(healthScore === 20){
         alert('You won!Hurray!')
-    } else if (painScore === 5){
+    } else if (painScore === 6){
+        bgMusic.pause()
+        gameoverSound.play()
         alert('You need to go to ER :(')
     } 
     clearInterval(unhealthyElementId) //falling down unhealthy objects interval ID 
@@ -273,12 +267,12 @@ function startGame(){
         ctx.clearRect(0,0,canvas.width, canvas.height) 
         ctx.drawImage(bgImg, 0, 0)
         drawScore()
-
+        bgMusic.play()
         player.draw()
         
         elementsInGame.forEach((element, index) => { //callback function
             element.draw()        
-           // element.fallDown() 
+           // element.fallDown() being called at under the draw function 
             
             if(player.x + player.w >= element.x && 
                 player.x <= element.x + element.w &&
@@ -286,17 +280,19 @@ function startGame(){
                 player.y + player.w >= element.y) {
                 if(element.isHealthy) {
                     healthScore++
-                    if(SPEED > 8) {
+                    healthSound.play()
+                    if(SPEED < 8) {
                         SPEED = SPEED +1
                     }
                 } else {
                     painScore++  
-                    if(SPEED < 2){
+                    painSound.play()
+                    if(SPEED > 2){
                        SPEED = SPEED -1   
                     }   
                 } 
                 elementsInGame.splice(index,1)
-                if(painScore === 5 || healthScore === 10){
+                if(painScore === 6 || healthScore === 20){           
                     gameOver()
                     return  
                     //resetGame()
@@ -317,9 +313,6 @@ window.onload = () => {
         canvas.style.display = '';
         //show the game screen
         gameScreen.style.display = "initial";
-       /*  for (let i=0; i < allObjArray.length; i++ ){
-            ctx.drawImage(allObjArray[i].img, allObjArray[i].x, allObjArray[i].y, 50, 50)
-        }  */
         startGame();
     } 
 }

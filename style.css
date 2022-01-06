@@ -20,7 +20,7 @@ body {
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 1.2em;
     text-transform: uppercase;
-    text-align: center;
+
   }
   
   #game-intro {
@@ -41,7 +41,7 @@ body {
     height: 300px;
     font-size: 16px;
     text-align: left;
-    color: black;
+    color: white;
     /*font-family: Verdana, Geneva, Tahoma, sans-serif; */
   }
 
@@ -49,7 +49,7 @@ body {
     position: absolute;
     z-index: 1;
     top: 370px;
-    left: 400px;
+    left: 300px;
     font-size: 16px;
     background-color: white;
     color: black;
@@ -61,6 +61,38 @@ body {
     cursor: pointer;
   }
 
+  #gameover h1 {
+    z-index: 4;
+    position: absolute;
+    top: 50px;
+    left: 300px;
+    color: white;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.2em;
+    text-transform: uppercase;
+
+  }
+  
+  #gameover {
+    z-index: 2;
+    position: absolute;
+    top: 50px;
+    width: 1200px;
+    height: 504px;
+    
+  }
+
+  #gameover-text {
+    z-index: 1;
+    position: absolute;
+    top: 100px;
+    left: 300px;
+    width: 500px;
+    height: 300px;
+    font-size: 16px;
+    text-align: left;
+    color: white;
+  }
  
  canvas {
     z-index: 0;
