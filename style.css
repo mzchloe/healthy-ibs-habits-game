@@ -11,6 +11,19 @@ body {
     cursor: crosshair;
   }
 
+  
+  #footer {
+    z-index: 4;
+    position: absolute;
+    top: 360px;
+    font-size: small;
+    color: white;
+  }
+
+  #footer a {
+    text-decoration: underline;
+    color: white;
+  }
   #game-screen {
     display: flex;
     flex-direction: column;

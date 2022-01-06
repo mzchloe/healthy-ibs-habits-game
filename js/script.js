@@ -233,7 +233,7 @@ function gameOver(){
         bgMusic.pause()
         victorySound.play()
         alert('Congratulations! You are back in great shape!')
-    } else if (painScore === 6){
+    } else if (painScore === 10){
         bgMusic.pause()
         gameoverSound.play()
         alert('Uh oh! You have been a naughty girl, you consumed too much unhealthy things and now you have so much pain you need to go to the ER :(')
@@ -299,7 +299,7 @@ function startGame(){
                     }   
                 } 
                 elementsInGame.splice(index,1)
-                if(painScore === 6 || healthScore === 20){           
+                if(painScore === 10 || healthScore === 20){           
                     gameOver()
                     return  
                     //resetGame()
