@@ -65,10 +65,10 @@ let SPEED = 5
 
 //sounds
 let healthSound = new Audio();
-healthSound.src = "../sounds/health.mp3";
+healthSound.src = "http://freesoundeffect.net/sites/default/files/game-win-bell-sound-effect-3518677.mp3";
 
 let painSound = new Audio();
-painSound.src = "../sounds/pain.mp3";
+painSound.src = "http://freesoundeffect.net/sites/default/files/negative-game-hit-01-sound-effect-47344971.mp3";
 
 let bgMusic = new Audio();
 bgMusic.src = "../sounds/bensound-buddy.mp3";

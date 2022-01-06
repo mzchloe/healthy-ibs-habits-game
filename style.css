@@ -11,6 +11,13 @@ body {
     cursor: crosshair;
   }
 
+  #game-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
   #game-intro h1 {
     z-index: 4;
     position: absolute;
