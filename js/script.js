@@ -1,12 +1,17 @@
 const startBtn = document.getElementById('start-button');
+const replayBtn = document.getElementById('replay-button');
 const gameIntro = document.getElementById('game-intro');
 const gameScreen = document.getElementById('game-screen')
+const gameoverScreen = document.getElementById('gameover-screen')
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext("2d");
 
-//BG IMAGE
+//BG IMAGES
 const bgImg = new Image();
 bgImg.src = "./Images/bgField.jpg";
+
+const gameoverImg = new Image();
+gameoverImg.src = "./Images/hospital.jpeg";
 
 //SCORE ICONS
 const healthImg = new Image();
@@ -229,25 +234,39 @@ let unhealthyElementId
 let healthyElementId
 let gameloopId
 
+
+function gameOverScreen(){
+    gameoverScreen.style.display = "block";
+    gameScreen.style.display = "none";
+    canvas.style.display = "";
+   
+}
+
+function resetScore(){
+    healthScore = 0
+    painScore = 0
+    
+}
+
 //GAME OVER
 function gameOver(){
-    if(healthScore === 20){
+    if(healthScore === 4){
         bgMusic.pause()
         victorySound.play()
         alert('Congratulations! You are back in great shape!')
-    } else if (painScore === 10){
+    } else if (painScore === 2){
+        gameOverScreen()
         bgMusic.pause()
         gameoverSound.play()
         alert('Uh oh! You have been a naughty girl, you consumed too much unhealthy things and now you have so much pain you need to go to the ER :(')
     } 
-    clearInterval(unhealthyElementId) //falling down unhealthy objects interval ID 
+    clearInterval(unhealthyElementId) 
     clearInterval(healthyElementId)
     clearInterval(gameloopId)
 }
 
 //GAME LOOP
-function startGame(){
-    
+function startGame(){  
     // every three seconds, add a random healthy element
    healthyElementId = setInterval(() => {
         const healthyElements = elementsInGame.filter((element) => element.isHealthy === true)
@@ -301,7 +320,7 @@ function startGame(){
                     }   
                 } 
                 elementsInGame.splice(index,1)
-                if(painScore === 10 || healthScore === 20){           
+                if(painScore === 2 || healthScore === 4){           
                     gameOver()
                     return  
                     //resetGame()
@@ -316,12 +335,26 @@ function startGame(){
 
 bgImg.onload = () => {
     ctx.drawImage(bgImg, 0, 0)
+    //hide the gameover screen
+    gameoverScreen.style.display = "none";
     startBtn.onclick = () => {
         //hide the introduction screen
         gameIntro.style.display = "none";
         canvas.style.display = '';
         //show the game screen
         gameScreen.style.display = "initial";
+        startGame();
+    } 
+    replayBtn.onclick = () => {
+        //hide the introduction screen
+        gameIntro.style.display = "none";
+        canvas.style.display = '';
+        //show the game screen
+        gameScreen.style.display = "block";
+        gameoverScreen.style.display = "none";
+        verticalSpeed = 0
+        horizontalSpeed = 0
+        resetScore();
         startGame();
     } 
 }
