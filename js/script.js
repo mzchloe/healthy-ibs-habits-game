@@ -76,6 +76,9 @@ bgMusic.src = "./sounds/bensound-buddy.mp3";
 let gameoverSound = new Audio();
 gameoverSound.src = "./sounds/gameover.mp3";
 
+let victorySound = new Audio();
+victorySound.src = "./sounds/victory.wav";
+
 //SCORE BOARD 
 
  function drawScore(){
@@ -227,11 +230,13 @@ let gameloopId
 //GAME OVER
 function gameOver(){
     if(healthScore === 20){
-        alert('You won!Hurray!')
+        bgMusic.pause()
+        victorySound.play()
+        alert('Congratulations! You are back in great shape!')
     } else if (painScore === 6){
         bgMusic.pause()
         gameoverSound.play()
-        alert('You need to go to ER :(')
+        alert('Uh oh! You have been a naughty girl, you consumed too much unhealthy things and now you have so much pain you need to go to the ER :(')
     } 
     clearInterval(unhealthyElementId) //falling down unhealthy objects interval ID 
     clearInterval(healthyElementId)
