@@ -312,7 +312,7 @@ function startGame(){
 
 
 
-window.onload = () => {
+bgImg.onload = () => {
     ctx.drawImage(bgImg, 0, 0)
     startBtn.onclick = () => {
         //hide the introduction screen
