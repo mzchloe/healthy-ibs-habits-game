@@ -68,7 +68,7 @@ let painScore = 0;
 //PLAYER MOVEMENT using velocity and speed
 let horizontalSpeed = 0
 let verticalSpeed = 0
-let SPEED = 5
+let playerSpeed = 5
 
 //sounds
 let healthSound = new Audio();
@@ -79,19 +79,22 @@ painSound.src = "./sounds/pain.mp3";
 
 let bgMusic = new Audio();
 bgMusic.src = "./sounds/bensound-buddy.mp3";
+bgMusic.volume = 0.2
 
 let gameoverSound = new Audio();
 gameoverSound.src = "./sounds/gameover.mp3";
+gameoverSound.volume = 0.2
 
 let victorySound = new Audio();
 victorySound.src = "./sounds/victory.wav";
+victorySound.volume = 0.2
 
 //SCORE BOARD 
 
  function drawScore(){
     ctx.drawImage(healthImg, 15, 20, 30, 23)
     ctx.drawImage(painImg, 15, 53, 23, 30)
-    ctx.font = '18px verdana' //change text color to white 
+    ctx.font = '18px verdana' 
     ctx.fillStyle = 'white'
     ctx.fillText(`Health Score: ${healthScore}`, 55, 38)
     ctx.fillText(`Pain Score: ${painScore}`, 55, 72)
@@ -109,7 +112,6 @@ class playerObject {
     }
     draw() {
         ctx.drawImage(this.img, this.x, this.y, this.w, this.h)
-        ctx.strokeRect(this.x, this.y, this.w, this.h); // testing with borders
         this.move()
     }
     
@@ -152,21 +154,17 @@ class fallingObjects {
         this.w = objW
         this.h = objH
         this.isHealthy = isHealthy
-        this.speed = isHealthy ? 2 : 4
+        this.speed = isHealthy ? 2 : 5
     }
 
     draw() {
         ctx.drawImage(this.img, this.x, this.y, 40, 40)
-        ctx.strokeRect(this.x, this.y, 40, 40); // testing with borders
         this.fallDown()
     }
 
     fallDown() {
        if(this.y + this.speed > 504) {
-           this.y = -50
-           /* let startX =  Math.floor(Math.random() * (canvas.width - 100))
-           startX >= 0 && startX < 100 ? startX === 50 : null 
-           this.x = startX */
+           this.y = -40
        } else {
            this.y = this.y + this.speed
        }
@@ -180,7 +178,7 @@ const unhealthyObjects = [stress, alcohol, smoke, onion, burger]
 
 //Max objects to show at the same time on the canvas per interval 
 const maxHealthyElements = 3
-const maxUnhealthyElements = 5
+const maxUnhealthyElements = 4
 
 //GENERATING RANDOM OBJECTS TO FALL DOWN
 function getRandomObject(isHealthy) {
@@ -201,16 +199,16 @@ let elementsInGame = [];
 //Defining the direction of where the player is headed 
 document.addEventListener('keydown', event => {
     if(event.keyCode === 38) {
-        verticalSpeed = SPEED * -1
+        verticalSpeed = playerSpeed * -1
         
     } else if(event.keyCode === 40) {
-        verticalSpeed = SPEED
+        verticalSpeed = playerSpeed
      
     } else if(event.keyCode === 37) {
-        horizontalSpeed = SPEED * -1
+        horizontalSpeed = playerSpeed * -1
     
     } else if(event.keyCode === 39) {
-       horizontalSpeed = SPEED 
+       horizontalSpeed = playerSpeed 
         
     }    
 }) 
@@ -244,6 +242,7 @@ function winningScreen(){
     canvas.style.display = "";
 }
 
+//SHOW GAMEOVER PAGE
 function gameOverScreen(){
     winScreen.style.display = "none";
     gameoverScreen.style.display = "block";
@@ -252,9 +251,21 @@ function gameOverScreen(){
    
 }
 
+//BACK TO START PAGE
+function startPage() {
+    ctx.clearRect(0,0,canvas.width, canvas.height); 
+    ctx.drawImage(bgImg, 0, 0);
+    gameIntro.style.display = "block";
+    gameScreen.style.display = "block";
+    gameoverScreen.style.display = "none";
+    winScreen.style.display = "none";
+}
+
+//RESET GAME
 function resetGame(){
     healthScore = 0
     painScore = 0
+    playerSpeed = 5
 
     elementsInGame = [getRandomObject(false)];
 
@@ -263,14 +274,16 @@ function resetGame(){
     clearInterval(gameloopId)
 }
 
-//GAME OVER
-function gameOver(){
-    if(healthScore === 4){
+
+
+//GAME LOGIC
+function gameLogic(){
+    if(healthScore === 12){
         winningScreen()
         bgMusic.pause()
         victorySound.play()
        // alert('Congratulations! You are back in great shape!')
-    } else if (painScore ===3){
+    } else if (painScore === 6){
         gameOverScreen()
         bgMusic.pause()
         gameoverSound.play()
@@ -299,9 +312,6 @@ function startGame(){
    unhealthyElementId = setInterval(() => {
         const unhealthyElements = elementsInGame.filter((element) => element.isHealthy === false)
         if(unhealthyElements.length < maxUnhealthyElements) {
-            // const randomImg = unhealthyObjects[Math.floor(Math.random()* unhealthyObjects.length)]
-            // const randomX = Math.floor(Math.random() * (canvas.width + 50) + canvas.width - 50)
-            // allObjArray.push(new fallingObjects(randomImg, randomX, -50, 50, 50, false))
             elementsInGame.push(getRandomObject(false))
         }
     }, 2000)
@@ -326,19 +336,19 @@ function startGame(){
                 if(element.isHealthy) {
                     healthScore++
                     healthSound.play()
-                    if(SPEED < 8) {
-                        SPEED = SPEED +1
+                    if(playerSpeed < 8) {
+                        playerSpeed = playerSpeed +1
                     }
                 } else {
                     painScore++  
                     painSound.play()
-                    if(SPEED > 2){
-                       SPEED = SPEED -1   
+                    if(playerSpeed > 2){
+                       playerSpeed = playerSpeed -1   
                     }   
                 } 
                 elementsInGame.splice(index,1)
-                if(painScore === 3 || healthScore === 4){           
-                    gameOver()
+                if(painScore === 6 || healthScore === 12){           
+                    gameLogic()
                     return  
                     //resetGame()
                     //game over screen
@@ -351,10 +361,7 @@ function startGame(){
 
 
 bgImg.onload = () => {
-    ctx.drawImage(bgImg, 0, 0)
-    //hide the gameover screen
-    gameoverScreen.style.display = "none";
-    winScreen.style.display = "none";
+    startPage();
     startBtn.onclick = () => {
         //hide the introduction screen
         gameIntro.style.display = "none";
@@ -372,22 +379,13 @@ bgImg.onload = () => {
         gameoverScreen.style.display = "none";
         verticalSpeed = 0
         horizontalSpeed = 0
-        resetGame();
         startGame();
     } 
     mainBtn.onclick = () => {
-        //show the introduction screen
-        gameIntro.style.display = "block";
-        canvas.style.display = '';
-        //show the game screen
-        winScreen.style.display = "none";
-        gameScreen.style.display = "block";
-        gameoverScreen.style.display = "none";
-        verticalSpeed = 0
-        horizontalSpeed = 0
-        resetGame();
-        startGame();
+        victorySound.pause()
+        startPage();
     }
 }
+
 
 
