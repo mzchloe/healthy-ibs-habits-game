@@ -271,12 +271,12 @@ function resetGame(){
 
 //GAME LOGIC
 function gameLogic(){
-    if(healthScore === 12){
+    if(healthScore === 20){
         winningScreen()
         bgMusic.pause()
         victorySound.play()
        // alert('Congratulations! You are back in great shape!')
-    } else if (painScore === 6){
+    } else if (painScore === 8){
         gameOverScreen()
         bgMusic.pause()
         gameoverSound.play()
@@ -340,7 +340,7 @@ function startGame(){
                     }   
                 } 
                 elementsInGame.splice(index,1)
-                if(painScore === 6 || healthScore === 12){           
+                if(painScore === 8 || healthScore === 20){           
                     gameLogic()
                     return  
                     //resetGame()
