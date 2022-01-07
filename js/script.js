@@ -1,8 +1,10 @@
 const startBtn = document.getElementById('start-button');
 const replayBtn = document.getElementById('replay-button');
+const mainBtn = document.getElementById('replay-button2');
 const gameIntro = document.getElementById('game-intro');
 const gameScreen = document.getElementById('game-screen')
 const gameoverScreen = document.getElementById('gameover-screen')
+const winScreen = document.getElementById('win-screen')
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext("2d");
 
@@ -235,7 +237,15 @@ let healthyElementId
 let gameloopId
 
 
+function winningScreen(){
+    winScreen.style.display = "block";
+    gameoverScreen.style.display = "none";
+    gameScreen.style.display = "none";
+    canvas.style.display = "";
+}
+
 function gameOverScreen(){
+    winScreen.style.display = "none";
     gameoverScreen.style.display = "block";
     gameScreen.style.display = "none";
     canvas.style.display = "";
@@ -256,9 +266,10 @@ function resetGame(){
 //GAME OVER
 function gameOver(){
     if(healthScore === 4){
+        winningScreen()
         bgMusic.pause()
         victorySound.play()
-        alert('Congratulations! You are back in great shape!')
+       // alert('Congratulations! You are back in great shape!')
     } else if (painScore ===3){
         gameOverScreen()
         bgMusic.pause()
@@ -343,6 +354,7 @@ bgImg.onload = () => {
     ctx.drawImage(bgImg, 0, 0)
     //hide the gameover screen
     gameoverScreen.style.display = "none";
+    winScreen.style.display = "none";
     startBtn.onclick = () => {
         //hide the introduction screen
         gameIntro.style.display = "none";
@@ -363,6 +375,19 @@ bgImg.onload = () => {
         resetGame();
         startGame();
     } 
+    mainBtn.onclick = () => {
+        //show the introduction screen
+        gameIntro.style.display = "block";
+        canvas.style.display = '';
+        //show the game screen
+        winScreen.style.display = "none";
+        gameScreen.style.display = "block";
+        gameoverScreen.style.display = "none";
+        verticalSpeed = 0
+        horizontalSpeed = 0
+        resetGame();
+        startGame();
+    }
 }
 
 
