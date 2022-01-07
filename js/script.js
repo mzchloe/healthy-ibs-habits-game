@@ -107,6 +107,7 @@ class playerObject {
     }
     draw() {
         ctx.drawImage(this.img, this.x, this.y, this.w, this.h)
+        ctx.strokeRect(this.x, this.y, this.w, this.h); // testing with borders
         this.move()
     }
     
@@ -154,6 +155,7 @@ class fallingObjects {
 
     draw() {
         ctx.drawImage(this.img, this.x, this.y, 40, 40)
+        ctx.strokeRect(this.x, this.y, 40, 40); // testing with borders
         this.fallDown()
     }
 
@@ -183,16 +185,14 @@ function getRandomObject(isHealthy) {
     const elementsArray = isHealthy ? healthyObjects : unhealthyObjects
 
     const randomImg = elementsArray[Math.floor(Math.random()* elementsArray.length)]
-    const randomX = Math.floor(Math.random() * (canvas.width - 50))
-    const randomElement = new fallingObjects(randomImg, randomX, -50, 50, 50, isHealthy)
+    const randomX = Math.floor(Math.random() * (canvas.width - 40))
+    const randomElement = new fallingObjects(randomImg, randomX, -40, 40, 40, isHealthy)
 
     return randomElement
 }
 
 //this is the array to keep all the falling objects:
-const elementsInGame = [
-  getRandomObject(false)
-];
+let elementsInGame = [];
 
 
 
@@ -242,10 +242,15 @@ function gameOverScreen(){
    
 }
 
-function resetScore(){
+function resetGame(){
     healthScore = 0
     painScore = 0
-    
+
+    elementsInGame = [getRandomObject(false)];
+
+    clearInterval(unhealthyElementId) 
+    clearInterval(healthyElementId)
+    clearInterval(gameloopId)
 }
 
 //GAME OVER
@@ -254,11 +259,11 @@ function gameOver(){
         bgMusic.pause()
         victorySound.play()
         alert('Congratulations! You are back in great shape!')
-    } else if (painScore === 2){
+    } else if (painScore ===3){
         gameOverScreen()
         bgMusic.pause()
         gameoverSound.play()
-        alert('Uh oh! You have been a naughty girl, you consumed too much unhealthy things and now you have so much pain you need to go to the ER :(')
+        //alert('Uh oh! You have been a naughty girl, you consumed too much unhealthy things and now you have so much pain you need to go to the ER :(')
     } 
     clearInterval(unhealthyElementId) 
     clearInterval(healthyElementId)
@@ -267,6 +272,7 @@ function gameOver(){
 
 //GAME LOOP
 function startGame(){  
+    resetGame()
     // every three seconds, add a random healthy element
    healthyElementId = setInterval(() => {
         const healthyElements = elementsInGame.filter((element) => element.isHealthy === true)
@@ -320,7 +326,7 @@ function startGame(){
                     }   
                 } 
                 elementsInGame.splice(index,1)
-                if(painScore === 2 || healthScore === 4){           
+                if(painScore === 3 || healthScore === 4){           
                     gameOver()
                     return  
                     //resetGame()
@@ -342,7 +348,7 @@ bgImg.onload = () => {
         gameIntro.style.display = "none";
         canvas.style.display = '';
         //show the game screen
-        gameScreen.style.display = "initial";
+        gameScreen.style.display = "block";
         startGame();
     } 
     replayBtn.onclick = () => {
@@ -354,7 +360,7 @@ bgImg.onload = () => {
         gameoverScreen.style.display = "none";
         verticalSpeed = 0
         horizontalSpeed = 0
-        resetScore();
+        resetGame();
         startGame();
     } 
 }
