@@ -130,13 +130,6 @@ class playerObject {
             this.x += horizontalSpeed
         }
 
-       /*  if (this.y + verticalSpeed > 0 && this.y < canvas.height - this.h) {
-            this.y += verticalSpeed
-        }
-
-        if (this.x > 0 && this.x + 10 < canvas.width - this.w){
-            this.x +=horizontalSpeed
-        } */
     }
 
 }
@@ -154,7 +147,7 @@ class fallingObjects {
         this.w = objW
         this.h = objH
         this.isHealthy = isHealthy
-        this.speed = isHealthy ? 2 : 5
+        this.speed = isHealthy ? 2 : 4
     }
 
     draw() {
